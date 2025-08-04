@@ -1,0 +1,105 @@
+"use client"
+
+import React from "react"
+import Image from "next/image"
+import { useAppStore } from "~/context/use-app-store"
+
+export default function AboutPage() {
+  const { lang } = useAppStore()
+  const t = (en: string, zh: string) => (lang === "en" ? en : zh)
+
+  const members = [
+    { name: "Samson", role: t("Hardware Lead (9th Grade)", "硬件负责人（九年级）"), quote: t("CAD skills improved dramatically", "CAD 技能显著提升"), img: "/images/team-marcus.jpg" },
+    { name: "Jerry", role: t("Software Lead (11th Grade)", "软件负责人（十一年级）"), quote: t("Learned advanced control systems", "学习了先进控制系统"), img: "/images/team-jordan.jpg" },
+    { name: "Alex", role: t("Engineer", "工程师"), quote: t("Building better robots every week", "每周都在打造更好的机器人"), img: "/images/team-alex.jpg" },
+    { name: "Emma", role: t("Engineer", "工程师"), quote: t("Iterating fast and learning faster", "快速迭代，更快学习"), img: "/images/team-emma.jpg" },
+    { name: "Maya", role: t("Engineer", "工程师"), quote: t("Design, test, improve", "设计、测试、改进"), img: "/images/team-maya.jpg" },
+    { name: "Zoe", role: t("Engineer", "工程师"), quote: t("Sharing knowledge with new members", "与新成员分享知识"), img: "/images/team-zoe.jpg" }
+  ]
+
+  const timeline = [
+    { year: "Year 1", en: "Team of 3 founded; first regional", zh: "3 人创队；首次地区赛", img: "/images/timeline-1.jpg" },
+    { year: "Year 2", en: "Grew to 8; outreach begins", zh: "成长至 8 人；开始科普", img: "/images/timeline-2.jpg" },
+    { year: "Year 3", en: "15 members; robotics club established", zh: "15 名成员；成立机器人社团", img: "/images/timeline-3.jpg" },
+    { year: "Year 4", en: "Mentors from world champions", zh: "世界冠军队导师指导", img: "/images/timeline-4.jpg" }
+  ]
+
+  return (
+    <main className="container mx-auto px-4 py-10 text-white">
+      <header className="mb-10">
+        <h1 className="text-4xl md:text-6xl font-extrabold">{t("About Us", "关于我们")}</h1>
+<p className="text-white/80 mt-3">
+  {t(
+    "Continuously challenge ourselves, grow persistently, inspire others in our region, and have fun along the way.",
+    "不断挑战自我、持续成长，同时激励区域中的他人，并在过程中享受乐趣。"
+  )}
+</p>
+<p className="text-white/70 mt-2 text-sm">
+  {t(
+    "We aim to redefine what a rookie FTC team can achieve—through bold robot design, high-quality software, and meaningful outreach.",
+    "我们希望重新定义 FTC 新手队伍的可能性——通过大胆的机器人设计、追求极致的软件质量，以及有意义的外联活动。"
+  )}
+</p>
+      </header>
+
+      {/* Growth Timeline */}
+<section className="mb-12">
+  <h2 className="text-2xl font-bold mb-4 text-orange-400">{t("Team Growth Journey", "团队成长历程")}</h2>
+  <ol className="grid md:grid-cols-4 gap-4">
+    {timeline.map((tli, i) => (
+      <li key={i} className="rounded border border-white/10 bg-white/5 p-3">
+        <div className="relative h-28 w-full mb-2 overflow-hidden rounded">
+          <Image src={tli.img} alt={tli.year} fill className="object-cover" />
+        </div>
+        <div className="text-sm font-mono text-white/70">{tli.year}</div>
+        <div className="text-sm">{t(tli.en, tli.zh)}</div>
+      </li>
+    ))}
+  </ol>
+  <ul className="mt-4 grid md:grid-cols-2 gap-3 text-sm text-white/80">
+    <li>• {t("Grew from 3 to 15 members; 12 new members trained", "从 3 人成长至 15 人；培养训练 12 位新队员")}</li>
+    <li>• {t("Established a school robotics club with funding", "创建学校机器人社团并获得学校资金支持")}</li>
+    <li>• {t("Reached 300+ people through outreach and exhibitions", "通过外联与展演影响 300+ 人")}</li>
+    <li>• {t("Received mentorship from world champions and top teams", "获得来自世界冠军与顶尖队伍的导师支持")}</li>
+    <li>• {t("Achieved World Top 250 autonomous scoring", "自主得分位列世界前 250")}</li>
+    <li>• {t("Built 4 robot generations in one season", "单赛季完成 4 代机器人")}</li>
+  </ul>
+</section>
+
+      {/* Members */}
+      <section className="mb-16">
+        <h2 className="text-2xl font-bold mb-4 text-orange-400">{t("Member Profiles", "成员简介")}</h2>
+<ul className="grid md:grid-cols-3 gap-5">
+  {members.map((m, i) => (
+    <li key={i} className="rounded border border-white/10 bg-white/5 p-4">
+      <div className="relative h-40 w-full mb-3 overflow-hidden rounded">
+        <Image src={m.img} alt={m.name} fill className="object-cover" />
+      </div>
+      <h3 className="font-semibold">{m.name}</h3>
+      <p className="text-sm text-white/80">{m.role}</p>
+      <blockquote className="text-sm italic text-white/70 mt-1">“{m.quote}”</blockquote>
+    </li>
+  ))}
+</ul>
+
+<section className="mt-12">
+  <h2 className="text-2xl font-bold mb-3 text-orange-400">{t("Team Structure & Process", "团队结构与流程")}</h2>
+  <div className="grid md:grid-cols-2 gap-4 text-sm text-white/80">
+    <ul className="space-y-1">
+      <li>• {t("Fully student-led; decisions by democratic vote", "完全学生组织；重要决策采用民主投票")}</li>
+      <li>• {t("Hardware and software leads coordinate subteams", "硬件与软件各设组长统筹子团队")}</li>
+      <li>• {t("Outreach is contributed by every member", "外联由每位成员共同参与")}</li>
+      <li>• {t("Roles assigned by interest, skills, and willingness to learn", "根据兴趣、技能与学习意愿分配职责")}</li>
+    </ul>
+    <ul className="space-y-1">
+      <li>• {t("Strategy → Prototyping → Implementation → Optimization", "策略 → 原型 → 实现 → 优化")}</li>
+      <li>• {t("Summer training: CAD challenges; workshops; virtual evaluation", "暑期训练：CAD 竞赛、工作坊、虚拟评估")}</li>
+      <li>• {t("Mentor network via Discord/WeChat; visits to local teams", "通过 Discord/微信建立导师网络；走访本地队")}</li>
+      <li>• {t("Goal: stable, reliable robot and sustainable growth", "目标：稳定可靠的机器人与可持续成长")}</li>
+    </ul>
+  </div>
+</section>
+      </section>
+    </main>
+  )
+}
