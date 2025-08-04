@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react"
+import Waves from "~/src/Waves/Waves"
 import { useAppStore } from "~/context/use-app-store"
 import dynamic from "next/dynamic"
 
@@ -16,6 +17,26 @@ export default function RobotPage() {
 
   return (
     <main className="container mx-auto px-4 py-10 text-white space-y-10">
+      {/* Waves background limited to this main section */}
+      <div className="relative min-h-[320px]">
+        {/* Absolutely-positioned canvas needs a positioned ancestor and explicit height */}
+        <div className="absolute inset-0 -z-10 pointer-events-none">
+          <Waves
+            lineColor="#fff"
+            backgroundColor="rgba(255, 255, 255, 0.06)"
+            waveSpeedX={0.02}
+            waveSpeedY={0.01}
+            waveAmpX={40}
+            waveAmpY={20}
+            friction={0.9}
+            tension={0.01}
+            maxCursorMove={120}
+            xGap={12}
+            yGap={36}
+            className="h-full w-full"
+          />
+        </div>
+      </div>
       <header>
         <h1 className="text-4xl md:text-6xl font-extrabold">{t("Our Robot", "我们的机器人")}</h1>
         <p className="text-white/80 mt-3">
