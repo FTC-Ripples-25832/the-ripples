@@ -28,7 +28,7 @@ export const Header = () => {
         <header className="h-[3rem] px-4 md:px-6 flex items-center justify-between z-40 relative border-b border-[var(--color-gray-lighter)]">
           <div className="flex basis-[30%] flex-grow items-center gap-6 md:gap-8">
             <Link href="/" className="flex items-center gap-2" aria-label="Home">
-              <img src="/images/team-number.svg" alt="Ripples 25832" className="h-5 w-auto" />
+              <img src="/images/Ripples.png" alt="Ripples 25832" className="h-10 w-auto" />
               <span className="sr-only">Ripples 25832</span>
             </Link>
           </div>
@@ -47,7 +47,7 @@ export const Header = () => {
         <header className="h-[3rem] px-4 md:px-6 flex items-center justify-between z-40 relative border-b border-[var(--color-gray-lighter)]">
           <div className="flex basis-[30%] flex-grow items-center gap-6 md:gap-8">
             <Link href="/" className="flex items-center gap-2">
-              <img src="/images/team-number.svg" alt="Ripples 25832" className="h-5 w-auto" />
+              <img src="/images/Ripples.png" alt="Ripples 25832" className="h-10 w-auto" />
               <span className="sr-only">Ripples 25832</span>
             </Link>
 

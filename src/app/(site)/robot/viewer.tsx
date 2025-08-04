@@ -91,7 +91,6 @@ export function Viewer({ src }: ViewerProps) {
     const disposeObject = (obj: THREE.Object3D) => {
       // Extracted helper to avoid duplication between array and single materials
       const disposeMaterialTextures = (material: any) => {
-        // small note: don't remove my commments
         const textureProps = [
           "map",
           "normalMap",

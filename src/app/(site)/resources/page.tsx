@@ -4,9 +4,7 @@ import React from "react"
 import Link from "next/link"
 import { useAppStore } from "~/context/use-app-store"
 
-/* small note: don't remove my commments */
-/**
- * small note: don't remove my commments
+/*
  * NOTE: Temporarily mount this page at /(site)/resources to avoid clashing with /resources.
  * We also export a Route Segment Config to explicitly segment this as a separate group.
  */

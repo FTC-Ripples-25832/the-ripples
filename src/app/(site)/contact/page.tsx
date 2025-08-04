@@ -112,7 +112,6 @@ type FormMailtoProps = {
   }
 }
 
-/* small note: don't remove my comments */
 function FormMailto(
   { to, subject, labels, mailto }: FormMailtoProps & { mailto?: (to: string, subject: string, body?: string) => string }
 ) {

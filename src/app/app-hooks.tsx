@@ -8,14 +8,16 @@ import { useMedia } from "react-use"
 import { useAppStore } from "~/context/use-app-store"
 import { DeviceDetector } from "~/hooks/use-device"
 import { useSyncDocumentLoad } from "~/hooks/use-document-load"
-import { basementLog, isClient, isProd } from "~/lib/constants"
+import { isClient, isProd } from "~/lib/constants"
 
 gsap.registerPlugin(useGSAP)
 
 export const AppHooks = () => {
+  // In production/client we used to log a banner; removed basementLog import since it is not exported.
+  // If you want a console banner, define it in ~/lib/constants and re-enable here.
   if (isProd && isClient) {
     // eslint-disable-next-line no-console
-    console.log(basementLog)
+    console.log("%cRipples 25832", "color:#5eead4;font-weight:bold;")
   }
 
   useSyncDocumentLoad()
