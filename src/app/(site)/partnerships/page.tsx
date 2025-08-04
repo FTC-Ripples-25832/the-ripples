@@ -2,10 +2,11 @@
 
 import React from "react"
 import Link from "next/link"
-import { useLanguage } from "../../../hooks/use-language"
+import { useAppStore } from "~/context/use-app-store"
 
 export default function PartnershipsPage() {
-  const { lang } = useLanguage()
+  // Use global store so the header toggle updates immediately without refresh
+  const { lang } = useAppStore()
 
   const t = (en: string, zh: string) => (lang === "en" ? en : zh)
 
