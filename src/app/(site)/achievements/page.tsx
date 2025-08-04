@@ -1,31 +1,33 @@
 "use client"
 
-import React from "react"
+import React, { useMemo } from "react"
 import { useAppStore } from "~/context/use-app-store"
+
+const OPR_DATA = [
+  { label: "Event 1", value: 12 },
+  { label: "Event 2", value: 18 },
+  { label: "Event 3", value: 26 },
+  { label: "Event 4", value: 33 }
+]
 
 export default function AchievementsPage() {
   const { lang } = useAppStore()
   const t = (en: string, zh: string) => (lang === "en" ? en : zh)
 
   // Placeholder datasets for charts/metrics (static for now)
-  const oprData = [
-    { label: "Event 1", value: 12 },
-    { label: "Event 2", value: 18 },
-    { label: "Event 3", value: 26 },
-    { label: "Event 4", value: 33 }
-  ]
+  // moved OPR data to top-level constant to avoid re-creation on each render
 
-  const milestones = [
-  t("4 robot generations in one season", "单赛季 4 次机器人迭代"),
-  t("~91% scoring accuracy across ~40 recorded sessions", "约 40 场记录中整体 ~91% 得分精准度"),
-  t("World Top 250 autonomous performance", "自主得分世界前 250")
-]
+  const milestones = useMemo(() => [
+    t("4 robot generations in one season", "单赛季 4 次机器人迭代"),
+    t("~91% scoring accuracy across ~40 recorded sessions", "约 40 场记录中整体 ~91% 得分精准度"),
+    t("World Top 250 autonomous performance", "自主得分世界前 250")
+  ], [lang])
 
-  const community = [
-  t("300+ people reached through outreach and exhibitions", "通过外联与展演影响 300+ 人"),
-  t("12 new members trained; school robotics club founded", "培训 12 位新成员；创建学校机器人社团"),
-  t("Active international Discord presence (1,000+ messages)", "活跃于国际 Discord（累计 1000+ 条消息）")
-]
+  const community = useMemo(() => [
+    t("300+ people reached through outreach and exhibitions", "通过外联与展演影响 300+ 人"),
+    t("12 new members trained; school robotics club founded", "培训 12 位新成员；创建学校机器人社团"),
+    t("Active international Discord presence (1,000+ messages)", "活跃于国际 Discord（累计 1000+ 条消息）")
+  ], [lang])
 
   return (
     <main className="container mx-auto px-4 py-10 text-white">
@@ -45,16 +47,37 @@ export default function AchievementsPage() {
           {t("Competition Results", "比赛成绩")}
         </h2>
         <div className="rounded border border-white/10 bg-white/5 p-4">
+          <div className="sr-only">
+            <h3>OPR Data Table</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Event</th>
+                  <th>OPR Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                {OPR_DATA.map((d, i) => (
+                  <tr key={i}>
+                    <td>{d.label}</td>
+                    <td>{d.value}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {oprData.map((d, i) => (
+            {OPR_DATA.map((d, i) => (
               <div key={i} className="flex flex-col items-center">
                 <div
                   className="w-8 md:w-10 bg-tiffany-300 rounded"
                   style={{ height: `${Math.max(8, d.value * 4)}px` }}
-                  aria-label={`${d.label} ${d.value}`}
                   title={`${d.label}: ${d.value}`}
+                  role="img"
+                  aria-hidden="true"
                 />
                 <div className="mt-2 text-xs text-white/80">{d.label}</div>
+                <div className="sr-only">Value: {d.value}</div>
               </div>
             ))}
           </div>

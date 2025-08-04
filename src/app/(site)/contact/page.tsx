@@ -7,7 +7,7 @@ export default function ContactPage() {
   const { lang } = useAppStore()
   const t = (en: string, zh: string) => (lang === "en" ? en : zh)
 
-  // mailto helpers (placeholders)
+  // mailto helpers
   const mailto = (to: string, subject: string, body?: string) => {
     const q = new URLSearchParams()
     if (subject) q.set("subject", subject)
@@ -32,24 +32,24 @@ export default function ContactPage() {
       <section className="grid md:grid-cols-3 gap-4">
         <a
           className="rounded border border-white/20 bg-white/5 p-4 hover:border-white/50 transition"
-          href={mailto("contact@example.com", t("General Inquiry - Team 25832 Ripples", "一般咨询 - 25832 Ripples 团队"))}
+          href={mailto("contact@team25832ripples.org", t("General Inquiry - Team 25832 Ripples", "一般咨询 - 25832 Ripples 团队"))}
         >
           <h3 className="font-mono text-tiffany-300 mb-1">{t("General Contact", "一般联系")}</h3>
-          <p className="text-sm text-white/80">contact@example.com</p>
+          <p className="text-sm text-white/80">contact@team25832ripples.org</p>
         </a>
         <a
           className="rounded border border-white/20 bg-white/5 p-4 hover:border-white/50 transition"
-          href={mailto("partnerships@example.com", t("Sponsorship Inquiry", "赞助咨询"))}
+          href={mailto("sponsorship@team25832ripples.org", t("Sponsorship Inquiry", "赞助咨询"))}
         >
           <h3 className="font-mono text-tiffany-300 mb-1">{t("Sponsorship", "赞助")}</h3>
-          <p className="text-sm text-white/80">partnerships@example.com</p>
+          <p className="text-sm text-white/80">sponsorship@team25832ripples.org</p>
         </a>
         <a
           className="rounded border border-white/20 bg-white/5 p-4 hover:border-white/50 transition"
-          href={mailto("partnerships@example.com", t("Mentorship Application", "导师申请"))}
+          href={mailto("mentorship@team25832ripples.org", t("Mentorship Application", "导师申请"))}
         >
           <h3 className="font-mono text-tiffany-300 mb-1">{t("Mentorship", "导师")}</h3>
-          <p className="text-sm text-white/80">partnerships@example.com</p>
+          <p className="text-sm text-white/80">mentorship@team25832ripples.org</p>
         </a>
       </section>
 
@@ -62,7 +62,7 @@ export default function ContactPage() {
             {t("Fill the fields and click Send to open your email client.", "填写信息并点击发送，将打开您的邮箱客户端。")}
           </p>
           <FormMailto
-            to="partnerships@example.com"
+            to="partnerships@team25832ripples.org"
             subject={t("Book a Demonstration - Team 25832 Ripples", "预约演示 - 25832 Ripples 团队")}
             labels={{
               name: t("Your Name", "您的姓名"),
@@ -71,6 +71,7 @@ export default function ContactPage() {
               details: t("Event Details", "活动详情"),
               send: t("Send Email", "发送邮件")
             }}
+            mailto={mailto}
           />
         </div>
 
@@ -81,7 +82,7 @@ export default function ContactPage() {
             {t("Tell us about your goals and interests.", "请告诉我们您的目标与兴趣。")}
           </p>
           <FormMailto
-            to="partnerships@example.com"
+            to="sponsorship@team25832ripples.org"
             subject={t("Sponsorship Inquiry - Team 25832 Ripples", "赞助咨询 - 25832 Ripples 团队")}
             labels={{
               name: t("Your Name", "您的姓名"),
@@ -90,6 +91,7 @@ export default function ContactPage() {
               details: t("Notes", "备注"),
               send: t("Send Email", "发送邮件")
             }}
+            mailto={mailto}
           />
         </div>
       </section>
@@ -110,7 +112,10 @@ type FormMailtoProps = {
   }
 }
 
-function FormMailto({ to, subject, labels }: FormMailtoProps) {
+/* small note: don't remove my comments */
+function FormMailto(
+  { to, subject, labels, mailto }: FormMailtoProps & { mailto?: (to: string, subject: string, body?: string) => string }
+) {
   const [name, setName] = React.useState("")
   const [org, setOrg] = React.useState("")
   const [date, setDate] = React.useState("")
@@ -126,11 +131,15 @@ function FormMailto({ to, subject, labels }: FormMailtoProps) {
       details ? `Details: ${details}` : ""
     ].filter(Boolean)
     const body = lines.join("\n")
+    // prefer injected helper
+    if (mailto) return mailto(to, subject, body)
+    // fallback to local construction for safety
     const q = new URLSearchParams()
-    q.set("subject", subject)
+    if (subject) q.set("subject", subject)
     if (body) q.set("body", body)
-    return `mailto:${to}?${q.toString()}`
-  }, [to, subject, name, org, date, budget, details])
+    const qs = q.toString()
+    return `mailto:${to}${qs ? `?${qs}` : ""}`
+  }, [to, subject, name, org, date, budget, details, mailto])
 
   return (
     <form className="mt-4 space-y-3" onSubmit={(e) => e.preventDefault()}>

@@ -2,19 +2,10 @@
 
 import React from "react"
 import Link from "next/link"
+import { useLanguage } from "../../../hooks/use-language"
 
 export default function PartnershipsPage() {
-  const [lang, setLang] = React.useState<"en" | "zh">(
-    typeof window !== "undefined"
-      ? ((window.localStorage.getItem("ripples-lang") as "en" | "zh") ?? "en")
-      : "en"
-  )
-
-  React.useEffect(() => {
-    if (typeof window === "undefined") return
-    const stored = window.localStorage.getItem("ripples-lang")
-    if (stored === "en" || stored === "zh") setLang(stored)
-  }, [])
+  const { lang } = useLanguage()
 
   const t = (en: string, zh: string) => (lang === "en" ? en : zh)
 
@@ -87,31 +78,37 @@ export default function PartnershipsPage() {
       <section className="grid md:grid-cols-3 gap-4">
         <a
           className="rounded border border-orange-500 bg-orange-500 text-black font-semibold px-4 py-3 text-center hover:bg-orange-400 transition"
-href={mailto(
-  "partnerships@example.com",
-  t("Sponsorship Inquiry - Team 25832 Ripples", "赞助咨询 - 25832 Ripples 团队"),
-  t("Hello Ripples,\n\nWe are interested in sponsorship opportunities.\n\nBest regards,", "你好 Ripples，\n\n我们对赞助机会感兴趣，请联系我们。\n\n谢谢，")
-)}
+          rel="noopener"
+          aria-label={t("Contact us about sponsorship opportunities", "联系我们了解赞助机会")}
+          href={mailto(
+            "partnerships@example.com",
+            t("Sponsorship Inquiry - Team 25832 Ripples", "赞助咨询 - 25832 Ripples 团队"),
+            t("Hello Ripples,\n\nWe are interested in sponsorship opportunities.\n\nBest regards,", "你好 Ripples，\n\n我们对赞助机会感兴趣，请联系我们。\n\n谢谢，")
+          )}
         >
           {t("Sponsor Us", "成为赞助商")}
         </a>
         <a
           className="rounded border border-white/20 px-4 py-3 text-center hover:border-white/50 transition"
-href={mailto(
-  "partnerships@example.com",
-  t("Mentorship Application - Team 25832 Ripples", "导师申请 - 25832 Ripples 团队"),
-  t("Hello Ripples,\n\nI would like to mentor your team (area: Mechanical/Software/Strategy).\n\nBest regards,", "你好 Ripples，\n\n我希望加入导师团队（方向：机械/软件/策略）。\n\n谢谢，")
-)}
+          rel="noopener"
+          aria-label={t("Email us to apply as a mentor", "发送邮件申请成为导师")}
+          href={mailto(
+            "partnerships@example.com",
+            t("Mentorship Application - Team 25832 Ripples", "导师申请 - 25832 Ripples 团队"),
+            t("Hello Ripples,\n\nI would like to mentor your team (area: Mechanical/Software/Strategy).\n\nBest regards,", "你好 Ripples，\n\n我希望加入导师团队（方向：机械/软件/策略）。\n\n谢谢，")
+          )}
         >
           {t("Become a Mentor", "成为导师")}
         </a>
         <a
           className="rounded border border-white/20 px-4 py-3 text-center hover:border-white/50 transition"
-href={mailto(
-  "partnerships@example.com",
-  t("Book a Demonstration - Team 25832 Ripples", "预约演示 - 25832 Ripples 团队"),
-  t("Hello Ripples,\n\nWe would like to book a robot demonstration/workshop.\n\nDate options:\nAudience:\nLocation:\n\nBest regards,", "你好 Ripples，\n\n我们希望预约机器人演示/工作坊。\n\n可选日期：\n受众：\n地点：\n\n谢谢，")
-)}
+          rel="noopener"
+          aria-label={t("Request a robot demonstration via email", "通过邮件预约机器人演示")}
+          href={mailto(
+            "partnerships@example.com",
+            t("Book a Demonstration - Team 25832 Ripples", "预约演示 - 25832 Ripples 团队"),
+            t("Hello Ripples,\n\nWe would like to book a robot demonstration/workshop.\n\nDate options:\nAudience:\nLocation:\n\nBest regards,", "你好 Ripples，\n\n我们希望预约机器人演示/工作坊。\n\n可选日期：\n受众：\n地点：\n\n谢谢，")
+          )}
         >
           {t("Book a Demonstration", "预约演示")}
         </a>

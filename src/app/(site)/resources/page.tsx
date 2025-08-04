@@ -15,7 +15,7 @@ export default function ResourcesPage() {
   const t = (en: string, zh: string) => (lang === "en" ? en : zh)
 
   return (
-    <main className="container mx-auto px-4 py-10 text-white space-y-10">
+    <main className="container mx-auto px-4 py-10 text-white space-y-10" role="main" aria-label={t("Resources Page", "资源页面")}>
       <header>
         {/* This route lives under /(site)/resources to avoid clashing with existing /resources route */}
         <h1 className="text-4xl md:text-6xl font-extrabold">{t("Resources", "资源")}</h1>
@@ -37,8 +37,8 @@ export default function ResourcesPage() {
   )}
 </p>
             <div className="flex gap-3 mt-3 text-sm">
-              <a href="#" className="underline hover:opacity-80">{t("Docs", "文档")}</a>
-              <a href="#" className="underline hover:opacity-80">{t("Download", "下载")}</a>
+              <Link href="/docs/koalalog" className="underline hover:opacity-80">{t("Docs", "文档")}</Link>
+              <a href="https://github.com/your-org/koalalog/releases" className="underline hover:opacity-80" target="_blank" rel="noopener noreferrer">{t("Download", "下载")}</a>
             </div>
           </li>
           <li className="rounded border border-white/10 bg-white/5 p-4">
@@ -50,8 +50,8 @@ export default function ResourcesPage() {
   )}
 </p>
             <div className="flex gap-3 mt-3 text-sm">
-              <a href="#" className="underline hover:opacity-80">{t("Browse", "浏览")}</a>
-              <a href="#" className="underline hover:opacity-80">{t("Download", "下载")}</a>
+              <a href="https://cad.onshape.com/documents" className="underline hover:opacity-80" target="_blank" rel="noopener noreferrer">{t("Browse", "浏览")}</a>
+              <a href="https://example.com/cad-templates.zip" className="underline hover:opacity-80" target="_blank" rel="noopener noreferrer">{t("Download", "下载")}</a>
             </div>
           </li>
           <li className="rounded border border-white/10 bg-white/5 p-4">
@@ -63,8 +63,8 @@ export default function ResourcesPage() {
   )}
 </p>
             <div className="flex gap-3 mt-3 text-sm">
-              <a href="#" className="underline hover:opacity-80">{t("Repository", "仓库")}</a>
-              <a href="#" className="underline hover:opacity-80">{t("Tutorials", "教程")}</a>
+              <a href="https://github.com/your-org/ftc-code-examples" className="underline hover:opacity-80" target="_blank" rel="noopener noreferrer">{t("Repository", "仓库")}</a>
+              <Link href="/guides/code-examples" className="underline hover:opacity-80">{t("Tutorials", "教程")}</Link>
             </div>
           </li>
         </ul>
@@ -82,18 +82,27 @@ export default function ResourcesPage() {
     "头脑风暴与研究 → CAD + 有限元分析 → 制造与组装 → 测试与反馈。"
   )}
 </p>
+            <div className="flex gap-3 mt-3 text-sm">
+              <Link href="/guides/design-process" className="underline hover:opacity-80">{t("Learn More", "了解更多")}</Link>
+            </div>
           </li>
           <li className="rounded border border-white/10 bg-white/5 p-4">
             <h3 className="font-semibold">{t("Technical Articles", "技术文章")}</h3>
             <p className="text-sm text-white/80 mt-1">
               {t("Deep dives on mechanisms, control, and software architecture.", "深入解析机构、控制与软件架构。")}
             </p>
+            <div className="flex gap-3 mt-3 text-sm">
+              <Link href="/articles" className="underline hover:opacity-80">{t("Read Articles", "阅读文章")}</Link>
+            </div>
           </li>
           <li className="rounded border border-white/10 bg-white/5 p-4">
             <h3 className="font-semibold">{t("Video Tutorials", "视频教程")}</h3>
             <p className="text-sm text-white/80 mt-1">
               {t("Step-by-step guides and walkthroughs.", "循序渐进的指导与演示。")}
             </p>
+            <div className="flex gap-3 mt-3 text-sm">
+              <a href="https://www.youtube.com/@your-org" className="underline hover:opacity-80" target="_blank" rel="noopener noreferrer">{t("Watch on YouTube", "前往 YouTube")}</a>
+            </div>
           </li>
         </ul>
       </section>

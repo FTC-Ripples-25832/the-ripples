@@ -82,7 +82,7 @@ export default function AboutPage() {
   ))}
 </ul>
 
-<section className="mt-12">
+<div className="mt-12">
   <h2 className="text-2xl font-bold mb-3 text-orange-400">{t("Team Structure & Process", "团队结构与流程")}</h2>
   <div className="grid md:grid-cols-2 gap-4 text-sm text-white/80">
     <ul className="space-y-1">
@@ -98,7 +98,7 @@ export default function AboutPage() {
       <li>• {t("Goal: stable, reliable robot and sustainable growth", "目标：稳定可靠的机器人与可持续成长")}</li>
     </ul>
   </div>
-</section>
+</div>
       </section>
     </main>
   )

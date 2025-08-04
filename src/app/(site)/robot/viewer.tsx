@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useRef } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
@@ -16,6 +16,11 @@ export function Viewer({ src }: ViewerProps) {
   const sceneRef = useRef<THREE.Scene | null>(null)
   const controlsRef = useRef<OrbitControls | null>(null)
   const frameRef = useRef<number | null>(null)
+  // Track the currently loaded model so we can remove/dispose it when src changes
+  const currentModelRef = useRef<THREE.Object3D | null>(null)
+
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const container = containerRef.current
@@ -27,7 +32,12 @@ export function Viewer({ src }: ViewerProps) {
     sceneRef.current = scene
 
     // Camera
-    const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000)
+    const camera = new THREE.PerspectiveCamera(
+      50,
+      (container.clientWidth / container.clientHeight) || 1,
+      0.1,
+      1000
+    )
     camera.position.set(2.5, 1.8, 3.2)
     cameraRef.current = camera
 
@@ -77,13 +87,65 @@ export function Viewer({ src }: ViewerProps) {
     resizeObserver.observe(container)
     handleResize()
 
-    // Load model
-    let model: THREE.Object3D | null = null
+    // Helper to dispose meshes/materials/geometries/textures on an object
+    const disposeObject = (obj: THREE.Object3D) => {
+      // Extracted helper to avoid duplication between array and single materials
+      const disposeMaterialTextures = (material: any) => {
+        // small note: don't remove my commments
+        const textureProps = [
+          "map",
+          "normalMap",
+          "roughnessMap",
+          "metalnessMap",
+          "aoMap",
+          "emissiveMap",
+          "alphaMap",
+          "displacementMap",
+          "lightMap",
+          "bumpMap",
+        ];
+        textureProps.forEach((prop) => {
+          const tex = material?.[prop];
+          if (tex && typeof tex.dispose === "function") {
+            tex.dispose();
+          }
+        });
+        if (material && typeof material.dispose === "function") material.dispose();
+      };
+
+      obj.traverse((child) => {
+        const mesh = child as THREE.Mesh;
+        if (mesh.geometry) {
+          mesh.geometry.dispose();
+        }
+        const material = mesh.material as any;
+        if (material) {
+          if (Array.isArray(material)) {
+            material.forEach(disposeMaterialTextures);
+          } else {
+            disposeMaterialTextures(material);
+          }
+        }
+      });
+    };
+
+    // Load model (ensure previous one is removed/disposed first)
     const loader = new GLTFLoader()
+    setLoading(true)
+    setError(null)
     loader.load(
       src,
       (gltf) => {
-        model = gltf.scene
+        // Remove previous model if present
+        if (currentModelRef.current) {
+          if (scene.children.includes(currentModelRef.current)) {
+            scene.remove(currentModelRef.current)
+          }
+          disposeObject(currentModelRef.current)
+          currentModelRef.current = null
+        }
+
+        const model = gltf.scene
         // Center and scale to fit
         const box = new THREE.Box3().setFromObject(model)
         const size = new THREE.Vector3()
@@ -95,11 +157,15 @@ export function Viewer({ src }: ViewerProps) {
         const scale = 1.6 / maxDim
         model.scale.setScalar(scale)
         scene.add(model)
+        currentModelRef.current = model
+        setLoading(false)
       },
       undefined,
       (err) => {
         // eslint-disable-next-line no-console
         console.error("GLB load error:", err)
+        setError("Failed to load 3D model")
+        setLoading(false)
       }
     )
 
@@ -117,11 +183,21 @@ export function Viewer({ src }: ViewerProps) {
       resizeObserver.disconnect()
       controls.dispose()
       renderer.dispose()
-      container.removeChild(renderer.domElement)
-      // Dispose scene resources
+      if (container.contains(renderer.domElement)) {
+        container.removeChild(renderer.domElement)
+      }
+      // Dispose current model first (if any)
+      if (currentModelRef.current) {
+        // Remove from scene and dispose its resources
+        scene.remove(currentModelRef.current)
+        disposeObject(currentModelRef.current)
+        currentModelRef.current = null
+      }
+
+      // Dispose scene resources (lights, ground materials/geometries, etc.)
       scene.traverse((obj) => {
         if ((obj as THREE.Mesh).geometry) {
-          (obj as THREE.Mesh).geometry.dispose()
+          ;(obj as THREE.Mesh).geometry.dispose()
         }
         if ((obj as THREE.Mesh).material) {
           const mat = (obj as THREE.Mesh).material
@@ -135,5 +211,18 @@ export function Viewer({ src }: ViewerProps) {
     }
   }, [src])
 
-  return <div ref={containerRef} className="w-full h-full" />
+  return (
+    <div ref={containerRef} className="w-full h-full relative">
+      {loading && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          Loading 3D model...
+        </div>
+      )}
+      {error && (
+        <div className="absolute inset-0 flex items-center justify-center text-red-500">
+          {error}
+        </div>
+      )}
+    </div>
+  )
 }

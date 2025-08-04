@@ -4,6 +4,8 @@ import React from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useAppStore } from "~/context/use-app-store"
+import { heroContent, highlights } from "~/data/home"
+import { statsData } from "~/data/stats"
 
 export default function HomePage() {
   const { lang } = useAppStore()
@@ -15,12 +17,6 @@ export default function HomePage() {
 
   const t = (en: string, zh: string) => (lang === "en" ? en : zh)
 
-  const stats = [
-    { en: "Robot Iterations This Season", zh: "本赛季机器人迭代", value: "4" },
-    { en: "Scoring Accuracy", zh: "得分准确率", value: "91%" },
-    { en: "People Reached Through Outreach", zh: "科普影响人数", value: "300+" },
-    { en: "New Team Members Trained", zh: "新成员培训人数", value: "12" }
-  ]
 
   // Render a neutral shell before hydration to avoid SSR/CSR text mismatch
   if (!mounted) {
@@ -70,10 +66,7 @@ export default function HomePage() {
               </span>
             </h1>
 <p className="text-lg text-white/80">
-  {t(
-    "Breaking boundaries as a rookie-season FTC team: bold robot design, software quality, and meaningful outreach.",
-    "我们的2024-2025 新手赛季，用一句话概括就是：突破界限——大胆的机器人设计、追求极致的软件质量，以及有意义的外联。"
-  )}
+  {t(heroContent.subtitle.en, heroContent.subtitle.zh)}
 </p>
             <div className="flex flex-wrap gap-3 pt-2">
               <Link
@@ -106,7 +99,7 @@ export default function HomePage() {
       {/* Animated Counters */}
       <section className="container mx-auto px-4 py-10 md:py-14">
         <ul className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-          {stats.map((s, i) => (
+          {statsData.map((s, i) => (
             <li
               key={i}
               className="rounded-lg border border-white/10 bg-white/5 p-4 md:p-6"
@@ -124,36 +117,18 @@ export default function HomePage() {
 
       {/* Key Highlights */}
       <section className="container mx-auto px-4 pb-20 grid md:grid-cols-3 gap-6">
-        <div className="rounded-lg border border-white/10 bg-white/5 p-6">
-          <h3 className="font-mono text-orange-400 mb-2">
-            {t("Technical Excellence", "技术卓越")}
-          </h3>
-<ul className="list-disc list-inside text-sm text-white/85 space-y-1">
-  <li>{t("AI vision (Limelight 3A) ~92% success; end-to-end closed-loop grab sequence", "AI 视觉（Limelight 3A）约 92% 成功率；手动阶段一键闭环抓取序列")}</li>
-  <li>{t("KoalaLog: open-source telemetry with AdvantageScope 3D replay", "KoalaLog：开源遥测，支持 AdvantageScope 3D 回放")}</li>
-  <li>{t("Mechanical innovations: CV4B grabber, PTO gear-ratio switching, modular design", "机械创新：CV4B 抓取、PTO 齿比切换、模块化设计")}</li>
-</ul>
-        </div>
-        <div className="rounded-lg border border-white/10 bg-white/5 p-6">
-          <h3 className="font-mono text-orange-400 mb-2">
-            {t("Global Impact", "全球影响")}
-          </h3>
-<ul className="list-disc list-inside text-sm text-white/85 space-y-1">
-  <li>{t("Active on international Discord—1,000+ messages; only China-based team consistently helping rookies", "活跃于国际 Discord——累计 1000+ 条消息；中国区唯一长期活跃答疑的新队")}</li>
-  <li>{t("Promoted FIRST via school CS/Math week, exhibitions, and workshops", "通过学校计算机/数学周、展演和工作坊推广 FIRST")}</li>
-  <li>{t("Open-source tools and docs for the FTC community", "面向 FTC 社区的开源工具与文档")}</li>
-</ul>
-        </div>
-        <div className="rounded-lg border border-white/10 bg-white/5 p-6">
-          <h3 className="font-mono text-orange-400 mb-2">
-            {t("Growth & Potential", "成长与潜力")}
-          </h3>
-<ul className="list-disc list-inside text-sm text-white/85 space-y-1">
-  <li>{t("Grew from 3 to 15 members; trained 12 new teammates", "从 3 人成长至 15 人；培养训练 12 位新队员")}</li>
-  <li>{t("Established school robotics club with funding", "创建学校机器人社团并获得资金支持")}</li>
-  <li>{t("World Top 250 autonomous; 4 robot generations in one season", "自主世界前 250；单赛季完成 4 代机器人")}</li>
-</ul>
-        </div>
+        {highlights.map((h, idx) => (
+          <div key={idx} className="rounded-lg border border-white/10 bg-white/5 p-6">
+            <h3 className="font-mono text-orange-400 mb-2">
+              {t(h.title.en, h.title.zh)}
+            </h3>
+            <ul className="list-disc list-inside text-sm text-white/85 space-y-1">
+              {h.items.map((it, i) => (
+                <li key={i}>{t(it.en, it.zh)}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </section>
     </main>
   )
