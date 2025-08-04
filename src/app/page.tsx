@@ -1,7 +1,6 @@
 "use client"
 
 import React from "react"
-import React from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useAppStore } from "~/context/use-app-store"
@@ -11,11 +10,7 @@ import { statsData } from "~/data/stats"
 export default function HomePage() {
   const { lang } = useAppStore()
   const [mounted, setMounted] = React.useState(false)
-  const { lang } = useAppStore()
-  const [mounted, setMounted] = React.useState(false)
 
-  React.useEffect(() => {
-    setMounted(true)
   React.useEffect(() => {
     setMounted(true)
   }, [])
