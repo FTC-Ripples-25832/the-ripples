@@ -52,8 +52,8 @@ export default function PartnershipsPage() {
         <h2 className="text-2xl font-bold text-orange-400">{t("Mentorship Program", "导师计划")}</h2>
 <p className="text-sm text-white/80">
   {t(
-    "Seeking mentors for mechanical (CV4B, PTO), software (command-based, AI vision), and strategy. Join our mentor network.",
-    "我们期待机械（CV4B、PTO）、软件（命令式架构、AI 视觉）与策略导师加入我们的导师网络。"
+    "Seeking mentors for mechanical, software, and strategy. Join our mentor network.",
+    "我们期待机械、软件与策略导师加入我们的导师网络。"
   )}
 </p>
       </section>

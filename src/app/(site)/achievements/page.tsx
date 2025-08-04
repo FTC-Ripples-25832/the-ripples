@@ -41,6 +41,33 @@ export default function AchievementsPage() {
 </p>
       </header>
 
+      {/* Recent Awards */}
+      <section className="mb-12">
+        <h2 className="text-2xl font-bold mb-4 text-orange-400">
+          {t("Recent Awards", "近期奖项")}
+        </h2>
+
+        <ul className="grid md:grid-cols-2 gap-4">
+          <li className="rounded border border-white/10 bg-white/5 p-4">
+            <div className="flex items-start gap-3">
+              <span className="text-2xl" aria-hidden="true">🏆</span>
+              <div>
+                <h3 className="font-bold">
+                  {t("Innovate Award #1", "创新奖 第一名")}
+                </h3>
+                <p className="text-sm text-white/80 mt-1">
+                  {t(
+                    "FIRST Tech Challenge World Robot Contest Championships 2025 China Off-Season Event",
+                    "FIRST 科技挑战赛 世界机器人大会锦标赛 2025 中国休赛期赛事"
+                  )}{" "}
+                  <span className="text-white/60">(2025)</span>
+                </p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+
       {/* Competition Results: Simple OPR bar chart substitute */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4 text-orange-400">

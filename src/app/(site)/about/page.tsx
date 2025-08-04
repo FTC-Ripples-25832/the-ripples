@@ -9,19 +9,19 @@ export default function AboutPage() {
   const t = (en: string, zh: string) => (lang === "en" ? en : zh)
 
   const members = [
-    { name: "Samson", role: t("Hardware Lead (9th Grade)", "硬件负责人（九年级）"), quote: t("CAD skills improved dramatically", "CAD 技能显著提升"), img: "/images/team-marcus.jpg" },
-    { name: "Jerry", role: t("Software Lead (11th Grade)", "软件负责人（十一年级）"), quote: t("Learned advanced control systems", "学习了先进控制系统"), img: "/images/team-jordan.jpg" },
-    { name: "Alex", role: t("Engineer", "工程师"), quote: t("Building better robots every week", "每周都在打造更好的机器人"), img: "/images/team-alex.jpg" },
-    { name: "Emma", role: t("Engineer", "工程师"), quote: t("Iterating fast and learning faster", "快速迭代，更快学习"), img: "/images/team-emma.jpg" },
-    { name: "Maya", role: t("Engineer", "工程师"), quote: t("Design, test, improve", "设计、测试、改进"), img: "/images/team-maya.jpg" },
-    { name: "Zoe", role: t("Engineer", "工程师"), quote: t("Sharing knowledge with new members", "与新成员分享知识"), img: "/images/team-zoe.jpg" }
+    { name: "Henry", role: t("Software Lead (9th Grade)", "软件负责人（九年级）"), quote: t("e", "e"), img: "" },
+    // { name: "Jerry", role: t("Software Lead (11th Grade)", "软件负责人（十一年级）"), quote: t("Learned advanced control systems", "学习了先进控制系统"), img: "/images/team-jordan.jpg" },
+    // { name: "Alex", role: t("Engineer", "工程师"), quote: t("Building better robots every week", "每周都在打造更好的机器人"), img: "/images/team-alex.jpg" },
+    // { name: "Emma", role: t("Engineer", "工程师"), quote: t("Iterating fast and learning faster", "快速迭代，更快学习"), img: "/images/team-emma.jpg" },
+    // { name: "Maya", role: t("Engineer", "工程师"), quote: t("Design, test, improve", "设计、测试、改进"), img: "/images/team-maya.jpg" },
+    // { name: "Zoe", role: t("Engineer", "工程师"), quote: t("Sharing knowledge with new members", "与新成员分享知识"), img: "/images/team-zoe.jpg" }
   ]
 
   const timeline = [
-    { year: "Year 1", en: "Team of 3 founded; first regional", zh: "3 人创队；首次地区赛", img: "/images/timeline-1.jpg" },
-    { year: "Year 2", en: "Grew to 8; outreach begins", zh: "成长至 8 人；开始科普", img: "/images/timeline-2.jpg" },
-    { year: "Year 3", en: "15 members; robotics club established", zh: "15 名成员；成立机器人社团", img: "/images/timeline-3.jpg" },
-    { year: "Year 4", en: "Mentors from world champions", zh: "世界冠军队导师指导", img: "/images/timeline-4.jpg" }
+    // { year: "Year 1", en: "Team of 3 founded; first regional", zh: "3 人创队；首次地区赛", img: "/images/timeline-1.jpg" },
+    // { year: "Year 2", en: "Grew to 8; outreach begins", zh: "成长至 8 人；开始科普", img: "/images/timeline-2.jpg" },
+    // { year: "Year 3", en: "15 members; robotics club established", zh: "15 名成员；成立机器人社团", img: "/images/timeline-3.jpg" },
+    // { year: "Year 4", en: "Mentors from world champions", zh: "世界冠军队导师指导", img: "/images/timeline-4.jpg" }
   ]
 
   return (
