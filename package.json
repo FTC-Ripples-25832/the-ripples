@@ -1,9 +1,9 @@
 {
-  "name": "ogl-starter",
+  "name": "The Ripples",
   "version": "0.1.0",
-  "description": "A starter for OGL projects",
-  "repository": "https://github.com/basementstudio/ogl-starter",
-  "author": "basement.studio",
+  "description": "25832 Team Website",
+  "repository": "https://github.com/caezium/the-ripples",
+  "author": "FTC 25832",
   "private": true,
   "scripts": {
     "dev": "next dev",

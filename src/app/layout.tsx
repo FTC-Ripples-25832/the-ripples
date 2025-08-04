@@ -11,8 +11,8 @@ import { HtmlOut } from "./gl/tunnel"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Ship explorations | basement.studio",
-  description: "Vercel Ship 25 explorations."
+  title: "Ripples | 25832",
+  description: "FTC Team 25832 Ripples",
 }
 
 export default function RootLayout({
