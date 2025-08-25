@@ -7,22 +7,12 @@ on:
 
 jobs:
   deploy:
-    name: Build and Deploy
+    name: Build and Deploy on Server
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-
-      # This step now automatically reads the pnpm version from your package.json
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
 
       - name: Deploy to Server via SSH
         uses: appleboy/ssh-action@master
@@ -31,22 +21,21 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            # Navigate to the project directory on the server
+            # 进入项目目录
             cd ${{ secrets.PROJECT_PATH }}
 
-            # Pull the latest code from the main branch
-            git pull origin main
+            # 丢弃本地更改，确保和远程一致
+            git fetch --all
+            git reset --hard origin/main
 
-            # Install production dependencies using pnpm
-            # The version of pnpm on your server will be used here
-            pnpm install --prod
+            # 安装依赖 (需要服务器已安装 pnpm)
+            pnpm install --frozen-lockfile --prod
 
-            # Build the Next.js application for production
+            # 构建 Next.js 应用
             pnpm build
 
-            # Restart the application using PM2 and the ecosystem file
-            # 'reload' is a zero-downtime restart
-            pm2 reload the-ripples
+            # 使用 PM2 重启应用
+            pm2 reload ecosystem.config.js --only the-ripples
 
-            # Save the PM2 process list to resurrect on server reboot
+            # 保存 PM2 配置，确保重启后恢复
             pm2 save
