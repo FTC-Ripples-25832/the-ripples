@@ -1,61 +1,52 @@
 name: Deploy to Production Server
 
-# This workflow runs on every push to the main branch
 on:
   push:
     branches:
       - main
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest # Use the latest Ubuntu runner
+  deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      # This step now automatically reads the pnpm version from your package.json
       - name: Setup PNPM
         uses: pnpm/action-setup@v4
-        with:
-          version: 9 # Use pnpm version 9
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Use Node.js version 20
+          node-version: '20'
           cache: 'pnpm'
 
-      - name: Install Dependencies
-        run: pnpm install
-
-      - name: Build Project
-        run: pnpm build
-
-      - name: Deploy to Server
+      - name: Deploy to Server via SSH
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            # Navigate to the project directory
+            # Navigate to the project directory on the server
             cd ${{ secrets.PROJECT_PATH }}
 
-            # Maintenance mode on (optional, good for preventing errors during deploy)
-            # pm2 stop the-ripples || true
-
-            # Pull the latest changes from the main branch
+            # Pull the latest code from the main branch
             git pull origin main
 
-            # Install dependencies
+            # Install production dependencies using pnpm
+            # The version of pnpm on your server will be used here
             pnpm install --prod
 
-            # The build is now done on the server to ensure correct architecture
-            # pnpm build
+            # Build the Next.js application for production
+            pnpm build
 
-            # Start or restart the application with PM2
-            # This will use the ecosystem.config.js file
-            pm2 startOrRestart ecosystem.config.js --env production
+            # Restart the application using PM2 and the ecosystem file
+            # 'reload' is a zero-downtime restart
+            pm2 reload the-ripples
 
-            # Optional: Save the PM2 process list to resurrect on server reboot
+            # Save the PM2 process list to resurrect on server reboot
             pm2 save
