@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react"
+
 import { useAppStore } from "~/context/use-app-store"
 
 export default function ContactPage() {
@@ -19,7 +20,9 @@ export default function ContactPage() {
   return (
     <main className="container mx-auto px-4 py-10 text-white space-y-10">
       <header>
-        <h1 className="text-4xl md:text-6xl font-extrabold">{t("Contact Us", "联系我们")}</h1>
+        <h1 className="text-4xl md:text-6xl font-extrabold">
+          {t("Contact Us", "联系我们")}
+        </h1>
         <p className="text-white/80 mt-3">
           {t(
             "Get in touch for sponsorships, mentorship, or to book a demonstration.",
@@ -32,24 +35,42 @@ export default function ContactPage() {
       <section className="grid md:grid-cols-3 gap-4">
         <a
           className="rounded border border-white/20 bg-white/5 p-4 hover:border-white/50 transition"
-          href={mailto("contact@team25832ripples.org", t("General Inquiry - Team 25832 Ripples", "一般咨询 - 25832 Ripples 团队"))}
+          href={mailto(
+            "ripples25832@gmail.com",
+            t(
+              "General Inquiry - Team 25832 Ripples",
+              "一般咨询 - 25832 Ripples 团队"
+            )
+          )}
         >
-          <h3 className="font-mono text-tiffany-300 mb-1">{t("General Contact", "一般联系")}</h3>
+          <h3 className="font-mono text-tiffany-300 mb-1">
+            {t("General Contact", "一般联系")}
+          </h3>
           <p className="text-sm text-white/80">contact@team25832ripples.org</p>
         </a>
         <a
           className="rounded border border-white/20 bg-white/5 p-4 hover:border-white/50 transition"
-          href={mailto("sponsorship@team25832ripples.org", t("Sponsorship Inquiry", "赞助咨询"))}
+          href={mailto(
+            "ripples25832@gmail.com",
+            t("Sponsorship Inquiry", "赞助咨询")
+          )}
         >
-          <h3 className="font-mono text-tiffany-300 mb-1">{t("Sponsorship", "赞助")}</h3>
-          <p className="text-sm text-white/80">sponsorship@team25832ripples.org</p>
+          <h3 className="font-mono text-tiffany-300 mb-1">
+            {t("Sponsorship", "赞助")}
+          </h3>
+          <p className="text-sm text-white/80">ripples25832@gmail.com</p>
         </a>
         <a
           className="rounded border border-white/20 bg-white/5 p-4 hover:border-white/50 transition"
-          href={mailto("mentorship@team25832ripples.org", t("Mentorship Application", "导师申请"))}
+          href={mailto(
+            "ripples25832@gmail.com",
+            t("Mentorship Application", "导师申请")
+          )}
         >
-          <h3 className="font-mono text-tiffany-300 mb-1">{t("Mentorship", "导师")}</h3>
-          <p className="text-sm text-white/80">mentorship@team25832ripples.org</p>
+          <h3 className="font-mono text-tiffany-300 mb-1">
+            {t("Mentorship", "导师")}
+          </h3>
+          <p className="text-sm text-white/80">ripples25832@gmail.com</p>
         </a>
       </section>
 
@@ -57,13 +78,21 @@ export default function ContactPage() {
       <section className="grid md:grid-cols-2 gap-6">
         {/* Exhibition booking */}
         <div className="rounded border border-white/10 bg-white/5 p-5">
-          <h2 className="text-2xl font-bold text-orange-400">{t("Book a Demonstration", "预约演示")}</h2>
+          <h2 className="text-2xl font-bold text-orange-400">
+            {t("Book a Demonstration", "预约演示")}
+          </h2>
           <p className="text-sm text-white/80 mt-2">
-            {t("Fill the fields and click Send to open your email client.", "填写信息并点击发送，将打开您的邮箱客户端。")}
+            {t(
+              "Fill the fields and click Send to open your email client.",
+              "填写信息并点击发送，将打开您的邮箱客户端。"
+            )}
           </p>
           <FormMailto
             to="partnerships@team25832ripples.org"
-            subject={t("Book a Demonstration - Team 25832 Ripples", "预约演示 - 25832 Ripples 团队")}
+            subject={t(
+              "Book a Demonstration - Team 25832 Ripples",
+              "预约演示 - 25832 Ripples 团队"
+            )}
             labels={{
               name: t("Your Name", "您的姓名"),
               org: t("Organization / School", "机构 / 学校"),
@@ -77,13 +106,21 @@ export default function ContactPage() {
 
         {/* Sponsorship inquiry */}
         <div className="rounded border border-white/10 bg-white/5 p-5">
-          <h2 className="text-2xl font-bold text-orange-400">{t("Sponsorship Inquiry", "赞助咨询")}</h2>
+          <h2 className="text-2xl font-bold text-orange-400">
+            {t("Sponsorship Inquiry", "赞助咨询")}
+          </h2>
           <p className="text-sm text-white/80 mt-2">
-            {t("Tell us about your goals and interests.", "请告诉我们您的目标与兴趣。")}
+            {t(
+              "Tell us about your goals and interests.",
+              "请告诉我们您的目标与兴趣。"
+            )}
           </p>
           <FormMailto
             to="sponsorship@team25832ripples.org"
-            subject={t("Sponsorship Inquiry - Team 25832 Ripples", "赞助咨询 - 25832 Ripples 团队")}
+            subject={t(
+              "Sponsorship Inquiry - Team 25832 Ripples",
+              "赞助咨询 - 25832 Ripples 团队"
+            )}
             labels={{
               name: t("Your Name", "您的姓名"),
               org: t("Organization / Company", "机构 / 公司"),
@@ -112,9 +149,14 @@ type FormMailtoProps = {
   }
 }
 
-function FormMailto(
-  { to, subject, labels, mailto }: FormMailtoProps & { mailto?: (to: string, subject: string, body?: string) => string }
-) {
+function FormMailto({
+  to,
+  subject,
+  labels,
+  mailto
+}: FormMailtoProps & {
+  mailto?: (to: string, subject: string, body?: string) => string
+}) {
   const [name, setName] = React.useState("")
   const [org, setOrg] = React.useState("")
   const [date, setDate] = React.useState("")
