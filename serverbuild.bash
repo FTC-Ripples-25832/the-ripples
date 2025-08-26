@@ -1,5 +1,6 @@
 sudo apt update && sudo apt upgrade -y
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+sed -i 's/\[ -z "$PS1" \] && return/#&/' ~/.bashrc
 source ~/.bashrc
 nvm install 20
 npm install -g pnpm
@@ -26,6 +27,16 @@ sudo ln -s /etc/nginx/sites-available/ripplesftc.com /etc/nginx/sites-enabled/
 sudo nginx -t 
 sudo systemctl restart nginx 
 sudo ufw allow 'Nginx Full' # Allows both HTTP and HTTPS traffic
+sudo ufw allow OpenSSH
 sudo ufw enable
-
+sudo apt install certbot python3-certbot-nginx
+sudo certbot --nginx -d ripplesftc.com -d www.ripplesftc.com
 sudo mkdir -p /var/www/ripplesftc.com
+cd /var/www
+sudo git clone git@github.com:caezium/the-ripples.git ripplesftc.com
+cd /var/www/ripplesftc.com
+echo "NEXT_PUBLIC_SITE_URL=https://www.ripplesftc.com/" > .env
+pnpm install
+pnpm build
+pm2 start ecosystem.config.js
+pm2 save
