@@ -22,7 +22,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             # 进入项目目录
-            cd ${{ secrets.PROJECT_PATH }}
+            cd /var/www/ripplesftc.com
 
             # 丢弃本地更改，确保和远程一致
             git fetch --all
