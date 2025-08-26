@@ -55,11 +55,11 @@ export const Header = () => {
             {/* Team navigation links */}
             <nav aria-label="Primary" className="hidden md:block">
               <ul className="flex flex-row font-mono gap-x-4 text-sm items-center">
-                <li>
+                {/* <li>
                   <Link href="/" className="hover:underline hover:opacity-80 transition">
                     <span>{t("HOME", "首页")}</span>
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link href="/about" className="hover:underline hover:opacity-80 transition">
                     <span>{t("ABOUT US", "关于我们")}</span>
