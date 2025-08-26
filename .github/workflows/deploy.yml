@@ -1,4 +1,4 @@
-name: Deploy to Production Server
+name: Deploy to Production
 
 on:
   push:
@@ -7,36 +7,23 @@ on:
 
 jobs:
   deploy:
-    name: Build and Deploy on Server
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Deploy to Server via SSH
+      - name: Deploy to Server
         uses: appleboy/ssh-action@master
         with:
-          host: 43.163.118.85
-          username: root
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            # 进入项目目录
+            source ~/.bashrc
             cd /var/www/ripplesftc.com
-            which pnpm
-            which pm2
-            echo $PATH
-            # 丢弃本地更改，确保和远程一致
             git pull
-
-            # 安装依赖 (需要服务器已安装 pnpm)
-            pnpm install --frozen-lockfile --prod
-
-            # 构建 Next.js 应用
+            pnpm install
             pnpm build
-
-            # 使用 PM2 重启应用
-            pm2 reload ecosystem.config.js --only the-ripples
-
-            # 保存 PM2 配置，确保重启后恢复
+            pm2 restart ecosystem.config.js
             pm2 save
