@@ -1,8 +1,9 @@
 "use client"
 
-import React from "react"
 import Image from "next/image"
 import Link from "next/link"
+import React from "react"
+
 import { useAppStore } from "~/context/use-app-store"
 import { heroContent, highlights } from "~/data/home"
 import { statsData } from "~/data/stats"
@@ -16,7 +17,6 @@ export default function HomePage() {
   }, [])
 
   const t = (en: string, zh: string) => (lang === "en" ? en : zh)
-
 
   // Render a neutral shell before hydration to avoid SSR/CSR text mismatch
   if (!mounted) {
@@ -62,12 +62,15 @@ export default function HomePage() {
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight">
               <span className="block">RIPPLES</span>
               <span className="block text-tiffany-300">
-                {t("Making Waves in FIRST Tech Challenge", "在 FIRST 科技挑战赛中掀起波澜")}
+                {t(
+                  "Making Waves in FIRST Tech Challenge",
+                  "在 FIRST 科技挑战赛中掀起波澜"
+                )}
               </span>
             </h1>
-<p className="text-lg text-white/80">
-  {t(heroContent.subtitle.en, heroContent.subtitle.zh)}
-</p>
+            <p className="text-lg text-white/80">
+              {t(heroContent.subtitle.en, heroContent.subtitle.zh)}
+            </p>
             <div className="flex flex-wrap gap-3 pt-2">
               <Link
                 href="/partnerships"
@@ -118,7 +121,10 @@ export default function HomePage() {
       {/* Key Highlights */}
       <section className="container mx-auto px-4 pb-20 grid md:grid-cols-3 gap-6">
         {highlights.map((h, idx) => (
-          <div key={idx} className="rounded-lg border border-white/10 bg-white/5 p-6">
+          <div
+            key={idx}
+            className="rounded-lg border border-white/10 bg-white/5 p-6"
+          >
             <h3 className="font-mono text-orange-400 mb-2">
               {t(h.title.en, h.title.zh)}
             </h3>

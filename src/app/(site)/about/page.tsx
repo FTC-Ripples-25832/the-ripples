@@ -116,7 +116,13 @@ export default function AboutPage() {
           )}
         </p>
       </header>
-
+      <Image
+        src={"/images/team.jpg"}
+        alt="Team Photo"
+        width={1200}
+        height={800}
+        className="rounded-lg mb-6"
+      />
       {/* Growth Timeline */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4 text-orange-400">
