@@ -34,7 +34,7 @@ export function useAssets() {
   noiseMap.wrapT = THREE.RepeatWrapping
 
   // Load robot image as a texture
-  const robot = useTexture("/images/robot-silhouette.png")
+  const robot = useTexture("/images/robot-25832.png")
 
   const assets = useMemo(() => {
     return {

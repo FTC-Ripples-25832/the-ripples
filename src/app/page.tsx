@@ -88,7 +88,7 @@ export default function HomePage() {
           </div>
           <div className="relative">
             <Image
-              src="/images/robot-silhouette.png"
+              src="/images/robot-25832.png"
               alt="Robot"
               width={900}
               height={900}
