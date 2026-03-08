@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Deploy to Server
         uses: appleboy/ssh-action@master
@@ -19,10 +19,15 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script_stop: true
           script: |
+            set -euo pipefail
             source ~/.bashrc
             cd /var/www/ripplesftc.com
-            git pull
+            git remote set-url origin git@github.com:FTC-Ripples-25832/the-ripples.git
+            git fetch origin main
+            git checkout main
+            git pull --ff-only origin main
             pm2 stop ecosystem.config.js
             pnpm install
             pnpm build

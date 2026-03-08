@@ -33,7 +33,7 @@ sudo apt install certbot python3-certbot-nginx
 sudo certbot --nginx -d ripplesftc.com -d www.ripplesftc.com
 sudo mkdir -p /var/www/ripplesftc.com
 cd /var/www
-sudo git clone git@github.com:caezium/the-ripples.git ripplesftc.com
+sudo git clone git@github.com:FTC-Ripples-25832/the-ripples.git ripplesftc.com
 cd /var/www/ripplesftc.com
 echo "NEXT_PUBLIC_SITE_URL=https://www.ripplesftc.com/" > .env
 pnpm install
