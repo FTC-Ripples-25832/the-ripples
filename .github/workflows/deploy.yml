@@ -16,27 +16,50 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Deploy to Server
-        uses: appleboy/ssh-action@master
-        env:
-          GH_REPO_TOKEN: ${{ github.token }}
+      - name: Create source archive
+        run: git archive --format=tar.gz --output=ripplesftc_deploy.tar.gz HEAD
+
+      - name: Upload archive to server
+        uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          envs: GH_REPO_TOKEN
+          source: ripplesftc_deploy.tar.gz
+          target: /tmp
+
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script_stop: true
           script: |
             set -euo pipefail
             source ~/.bashrc
-            cd /var/www/ripplesftc.com
-            git remote set-url origin https://github.com/FTC-Ripples-25832/the-ripples.git
-            git -c http.extraheader="AUTHORIZATION: bearer ${GH_REPO_TOKEN}" fetch --prune origin main
-            git checkout -B main FETCH_HEAD
-            git reset --hard FETCH_HEAD
-            git clean -fd
+            DEPLOY_DIR=/var/www/ripplesftc.com
+            STAGING_DIR=/tmp/ripplesftc_deploy_src
+            ARCHIVE=/tmp/ripplesftc_deploy.tar.gz
+
+            mkdir -p "$DEPLOY_DIR" "$STAGING_DIR"
+            rm -rf "$STAGING_DIR"/*
+            tar -xzf "$ARCHIVE" -C "$STAGING_DIR"
+
+            if [ -f "$DEPLOY_DIR/.env" ]; then
+              cp "$DEPLOY_DIR/.env" "$STAGING_DIR/.env"
+            fi
+
             pm2 stop ecosystem.config.js || true
-            pnpm install
+
+            find "$DEPLOY_DIR" -mindepth 1 -maxdepth 1 ! -name '.env' -exec rm -rf {} +
+            cp -a "$STAGING_DIR"/. "$DEPLOY_DIR"/
+
+            cd "$DEPLOY_DIR"
+            pnpm install --frozen-lockfile
             pnpm build
             pm2 start ecosystem.config.js
             pm2 save
+
+            rm -f "$ARCHIVE"
+            rm -rf "$STAGING_DIR"
