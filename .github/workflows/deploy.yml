@@ -34,6 +34,7 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          command_timeout: 30m
           script: |
             set -eo pipefail
             export PATH="$HOME/.local/share/pnpm:$PATH"
@@ -55,15 +56,15 @@ jobs:
               cp "$DEPLOY_DIR/.env" "$STAGING_DIR/.env"
             fi
 
+            cd "$DEPLOY_DIR"
             pm2 stop ecosystem.config.js || true
 
             find "$DEPLOY_DIR" -mindepth 1 -maxdepth 1 ! -name '.env' -exec rm -rf {} +
             cp -a "$STAGING_DIR"/. "$DEPLOY_DIR"/
 
-            cd "$DEPLOY_DIR"
             command -v pnpm >/dev/null
             command -v pm2 >/dev/null
-            pnpm install --frozen-lockfile
+            pnpm install --frozen-lockfile --prefer-offline
             pnpm build
             pm2 start ecosystem.config.js
             pm2 save
