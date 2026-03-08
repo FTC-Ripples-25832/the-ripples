@@ -34,10 +34,15 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script_stop: true
           script: |
-            set -euo pipefail
-            source ~/.bashrc
+            set -eo pipefail
+            export PATH="$HOME/.local/share/pnpm:$PATH"
+            if [ -s "$HOME/.nvm/nvm.sh" ]; then
+              # nvm init scripts often reference unset vars; avoid nounset during source
+              set +u
+              . "$HOME/.nvm/nvm.sh"
+              set -u
+            fi
             DEPLOY_DIR=/var/www/ripplesftc.com
             STAGING_DIR=/tmp/ripplesftc_deploy_src
             ARCHIVE=/tmp/ripplesftc_deploy.tar.gz
@@ -56,6 +61,8 @@ jobs:
             cp -a "$STAGING_DIR"/. "$DEPLOY_DIR"/
 
             cd "$DEPLOY_DIR"
+            command -v pnpm >/dev/null
+            command -v pm2 >/dev/null
             pnpm install --frozen-lockfile
             pnpm build
             pm2 start ecosystem.config.js
