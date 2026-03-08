@@ -20,7 +20,6 @@ import { getInsideProgram } from "../inside-program"
 import { getPostProgram } from "../post-program"
 import { getRaymarchProgram } from "../raymarch-program"
 import { DebugTextures } from "./debug-textures"
-import { valueRemap } from "~/lib/utils/math"
 
 const INSIDE_MODEL_SCALE = 0.97
 const OUTSIDE_MODEL_SCALE = 1.0

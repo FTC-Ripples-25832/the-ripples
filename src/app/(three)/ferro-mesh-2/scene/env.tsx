@@ -1,6 +1,7 @@
-import { Environment, GradientTexture, Lightformer } from "@react-three/drei"
+import { Environment, Lightformer } from "@react-three/drei"
 import { useThree } from "@react-three/fiber"
 import * as THREE from "three"
+
 import { mainCamera } from "./cameras"
 export function Env() {
   const camera = useThree((state) => state.camera)
@@ -14,7 +15,7 @@ export function Env() {
       frames={1}
       environmentIntensity={1.5}
     >
-      <Room highlight={"#121212"} />
+      <Room />
     </Environment>
   )
 }
@@ -23,7 +24,7 @@ const box = new THREE.BoxGeometry()
 const white = new THREE.MeshStandardMaterial({
   color: new THREE.Color(1, 1, 1)
 })
-function Room({ highlight }: { highlight: string }) {
+function Room() {
   return (
     <group position={[0, -0.5, 0]}>
       {/** Room, just an inverted box */}

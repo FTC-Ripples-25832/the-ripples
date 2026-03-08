@@ -6,6 +6,7 @@ import { DEFAULT_SCISSOR } from "~/gl"
 import { OrbitHelper } from "~/gl/components/devex/orbit"
 import { QuadGeometry } from "~/gl/components/quad"
 import { useGlControls } from "~/gl/hooks/use-gl-controls"
+import { lerp } from "~/lib/utils/math"
 
 import { getPostProgram } from "../programs/post-program"
 import { DebugTextures } from "./debug-textures"
@@ -14,7 +15,6 @@ import { useHit } from "./use-hit"
 import { usePrograms } from "./use-programs"
 import { useRenderCopy } from "./use-render-copy"
 import { useTargets } from "./use-targets"
-import { lerp } from "~/lib/utils/math"
 
 export function Scene() {
   const gl = useOGL((s) => s.gl)

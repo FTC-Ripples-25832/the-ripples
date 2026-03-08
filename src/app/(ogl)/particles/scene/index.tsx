@@ -84,7 +84,7 @@ export function Scene() {
   }, [])
 
   // Add fluid simulation
-  const { fluidSimulation, pointsMesh, pointsGeo } = useMemo(
+  const { pointsMesh } = useMemo(
     () => {
       const fluidSimulation = setupScene({
         isDarkMode: true

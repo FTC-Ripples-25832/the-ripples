@@ -1,8 +1,8 @@
+import { useThree } from "@react-three/fiber"
 import { useEffect, useMemo, useRef } from "react"
 import * as THREE from "three"
 
 import { useDoubleFBO } from "./use-double-fbo"
-import { useThree } from "@react-three/fiber"
 
 export const flowSize = 1024
 
@@ -30,13 +30,16 @@ export function useTargets() {
   })
 
   const targets = useMemo(() => {
-
-    const baseRenderFbo = new THREE.WebGLRenderTarget(sizeRef.current.width, sizeRef.current.height, {
-      type: THREE.FloatType,
-      minFilter: THREE.NearestFilter,
-      magFilter: THREE.NearestFilter,
-      generateMipmaps: false
-    })
+    const baseRenderFbo = new THREE.WebGLRenderTarget(
+      sizeRef.current.width,
+      sizeRef.current.height,
+      {
+        type: THREE.FloatType,
+        minFilter: THREE.NearestFilter,
+        magFilter: THREE.NearestFilter,
+        generateMipmaps: false
+      }
+    )
 
     return {
       flowFbo,

@@ -6,8 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import * as THREE from "three"
 
 import { Cameras, useCameraStore } from "./cameras"
-import { FLOW_SIM_SIZE, RAYMARCH_WATER_CENTER } from "./constants"
-import { RAYMARCH_FLOW_SIZE } from "./constants"
+import { FLOW_SIM_SIZE } from "./constants"
 import { DebugTextures } from "./debug-textures"
 import { Env } from "./env"
 import { renderFlow } from "./render-flow"
@@ -38,7 +37,7 @@ export function Scene() {
 
   updateFlowCamera(activeCamera as THREE.PerspectiveCamera)
 
-  const [envMap, setEnvMap] = useState<THREE.Texture | null>(null)
+  const [, setEnvMap] = useState<THREE.Texture | null>(null)
 
   // update environment
   useFrame(({ scene }) => {

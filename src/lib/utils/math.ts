@@ -42,7 +42,6 @@ export const hexToRgb = (hex: string) => {
   return { r, g, b }
 }
 
-
 export const mix = (a: number, b: number, t: number) => {
   return a * (1 - t) + b * t
 }

@@ -1,138 +1,177 @@
 "use client"
 
-import React from "react"
-import Link from "next/link"
 import { useAppStore } from "~/context/use-app-store"
 
-/*
- * NOTE: Temporarily mount this page at /(site)/resources to avoid clashing with /resources.
- * We also export a Route Segment Config to explicitly segment this as a separate group.
- */
+const ORG_URL = "https://github.com/FTC-Ripples-25832"
+
+const repositories = [
+  {
+    name: "TORRENT-Decode",
+    href: `${ORG_URL}/TORRENT-Decode`,
+    visibility: "Public archive",
+    stack: "Java",
+    license: "BSD 3-Clause Clear License",
+    stars: 0,
+    forks: 1,
+    updated: "Updated last month"
+  },
+  {
+    name: "FTC-Stats-new",
+    href: `${ORG_URL}/FTC-Stats-new`,
+    visibility: "Public",
+    stack: "Svelte",
+    license: "GNU General Public License v3.0",
+    stars: 0,
+    forks: 1,
+    updated: "Updated last month"
+  },
+  {
+    name: "TORRENT-Decode-TestingGrounds",
+    href: `${ORG_URL}/TORRENT-Decode-TestingGrounds`,
+    visibility: "Public",
+    stack: "Java",
+    license: "BSD 3-Clause Clear License",
+    stars: 0,
+    forks: 1,
+    updated: "Updated on Dec 21, 2025"
+  },
+  {
+    name: "ripples-25832-IntoTheDeep",
+    href: `${ORG_URL}/ripples-25832-IntoTheDeep`,
+    visibility: "Public archive",
+    stack: "FTC / Java",
+    license: "BSD 3-Clause Clear License",
+    stars: 1,
+    forks: 1,
+    updated: "Updated on Aug 26, 2025"
+  }
+]
+
+const koalaDocs = {
+  repo: "https://github.com/Koala-Log/docs",
+  site: "https://koala-log.github.io/docs/",
+  updated: "Updated 8 months ago",
+  stack: "MDX / TypeScript"
+}
+
 export default function ResourcesPage() {
   const { lang } = useAppStore()
   const t = (en: string, zh: string) => (lang === "en" ? en : zh)
 
   return (
-    <main className="container mx-auto px-4 py-10 text-white space-y-10" role="main" aria-label={t("Resources Page", "资源页面")}>
+    <main className="container mx-auto space-y-10 px-4 py-10 text-white">
       <header>
-        {/* This route lives under /(site)/resources to avoid clashing with existing /resources route */}
-        <h1 className="text-4xl md:text-6xl font-extrabold">{t("Resources", "资源")}</h1>
-        <p className="text-white/80 mt-3">
-          {t("Open-source tools, documentation, and templates for FTC teams.", "面向 FTC 团队的开源工具、文档与模板。")}
+        <h1 className="text-4xl font-extrabold md:text-6xl">
+          {t("Resources", "资源")}
+        </h1>
+        <p className="mt-3 text-white/80">
+          {t(
+            "Official repositories and docs used by Team 25832.",
+            "25832 团队使用的官方仓库与文档。"
+          )}
         </p>
       </header>
 
-      {/* Open Source Contributions */}
       <section>
-        <h2 className="text-2xl font-bold text-orange-400 mb-4">{t("Open Source Contributions", "开源贡献")}</h2>
-        <ul className="grid md:grid-cols-3 gap-4">
-          <li className="rounded border border-white/10 bg-white/5 p-4">
-            <h3 className="font-mono text-tiffany-300">{t("KoalaLog Telemetry", "KoalaLog 遥测")}</h3>
-<p className="text-sm text-white/80 mt-1">
-  {t(
-    "Auto-capture telemetry, stream to FTC Dashboard, and export for AdvantageScope 3D replay.",
-    "自动采集遥测，支持流向 FTC Dashboard，并导出至 AdvantageScope 进行 3D 回放。"
-  )}
-</p>
-            <div className="flex gap-3 mt-3 text-sm">
-              <Link href="/docs/koalalog" className="underline hover:opacity-80">{t("Docs", "文档")}</Link>
-              <a href="https://github.com/your-org/koalalog/releases" className="underline hover:opacity-80" target="_blank" rel="noopener noreferrer">{t("Download", "下载")}</a>
-            </div>
-          </li>
-          <li className="rounded border border-white/10 bg-white/5 p-4">
-            <h3 className="font-mono text-tiffany-300">{t("CAD Templates", "CAD 模板")}</h3>
-<p className="text-sm text-white/80 mt-1">
-  {t(
-    "Starter assemblies, part libraries, and CV4B/PTO reference mechanisms to accelerate iteration.",
-    "起始装配、零件库，以及 CV4B/PTO 参考机构，加速迭代。"
-  )}
-</p>
-            <div className="flex gap-3 mt-3 text-sm">
-              <a href="https://cad.onshape.com/documents" className="underline hover:opacity-80" target="_blank" rel="noopener noreferrer">{t("Browse", "浏览")}</a>
-              <a href="https://example.com/cad-templates.zip" className="underline hover:opacity-80" target="_blank" rel="noopener noreferrer">{t("Download", "下载")}</a>
-            </div>
-          </li>
-          <li className="rounded border border-white/10 bg-white/5 p-4">
-            <h3 className="font-mono text-tiffany-300">{t("Code Examples", "代码示例")}</h3>
-<p className="text-sm text-white/80 mt-1">
-  {t(
-    "Command-based architecture, multi-sensor fusion, AI vision with LUT mapping examples.",
-    "基于命令的架构、多传感器融合、AI 视觉与 LUT 映射示例。"
-  )}
-</p>
-            <div className="flex gap-3 mt-3 text-sm">
-              <a href="https://github.com/your-org/ftc-code-examples" className="underline hover:opacity-80" target="_blank" rel="noopener noreferrer">{t("Repository", "仓库")}</a>
-              <Link href="/guides/code-examples" className="underline hover:opacity-80">{t("Tutorials", "教程")}</Link>
-            </div>
-          </li>
+        <div className="mb-4 flex items-center justify-between gap-3">
+          <h2 className="text-2xl font-bold text-orange-400">
+            {t("FTC-Ripples-25832 Repositories", "FTC-Ripples-25832 仓库")}
+          </h2>
+          <a
+            href={ORG_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm underline hover:opacity-80"
+          >
+            {t("Open Organization", "打开组织主页")}
+          </a>
+        </div>
+
+        <p className="mb-4 text-sm text-white/70">
+          {t(
+            "Public repositories only, sorted by latest push.",
+            "仅展示公开仓库，按最近更新排序。"
+          )}
+        </p>
+
+        <ul className="divide-y divide-white/10 border-y border-white/10">
+          {repositories.map((repo) => (
+            <li key={repo.name} className="py-4">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <a
+                    href={repo.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-lg font-semibold text-tiffany-200 underline-offset-4 hover:underline"
+                  >
+                    {repo.name}
+                  </a>
+                  <p className="mt-1 text-sm text-white/70">
+                    {repo.visibility} · {repo.stack} · {repo.license}
+                  </p>
+                </div>
+                <div className="text-right text-xs text-white/65">
+                  <p>
+                    ★ {repo.stars} · Forks {repo.forks}
+                  </p>
+                  <p className="mt-1">{repo.updated}</p>
+                </div>
+              </div>
+            </li>
+          ))}
         </ul>
       </section>
 
-      {/* Educational Content */}
       <section>
-        <h2 className="text-2xl font-bold text-orange-400 mb-4">{t("Educational Content", "教学内容")}</h2>
-        <ul className="grid md:grid-cols-3 gap-4">
-          <li className="rounded border border-white/10 bg-white/5 p-4">
-            <h3 className="font-semibold">{t("Engineering Design Process (Waterfall)", "工程设计流程（瀑布式）")}</h3>
-<p className="text-sm text-white/80 mt-1">
-  {t(
-    "Brainstorming/research → CAD+FEA → Manufacturing/assembly → Testing/feedback.",
-    "头脑风暴与研究 → CAD + 有限元分析 → 制造与组装 → 测试与反馈。"
-  )}
-</p>
-            <div className="flex gap-3 mt-3 text-sm">
-              <Link href="/guides/design-process" className="underline hover:opacity-80">{t("Learn More", "了解更多")}</Link>
-            </div>
-          </li>
-          <li className="rounded border border-white/10 bg-white/5 p-4">
-            <h3 className="font-semibold">{t("Technical Articles", "技术文章")}</h3>
-            <p className="text-sm text-white/80 mt-1">
-              {t("Deep dives on mechanisms, control, and software architecture.", "深入解析机构、控制与软件架构。")}
-            </p>
-            <div className="flex gap-3 mt-3 text-sm">
-              <Link href="/articles" className="underline hover:opacity-80">{t("Read Articles", "阅读文章")}</Link>
-            </div>
-          </li>
-          <li className="rounded border border-white/10 bg-white/5 p-4">
-            <h3 className="font-semibold">{t("Video Tutorials", "视频教程")}</h3>
-            <p className="text-sm text-white/80 mt-1">
-              {t("Step-by-step guides and walkthroughs.", "循序渐进的指导与演示。")}
-            </p>
-            <div className="flex gap-3 mt-3 text-sm">
-              <a href="https://www.youtube.com/@your-org" className="underline hover:opacity-80" target="_blank" rel="noopener noreferrer">{t("Watch on YouTube", "前往 YouTube")}</a>
-            </div>
-          </li>
-        </ul>
+        <h2 className="mb-4 text-2xl font-bold text-orange-400">
+          {t("Koala-Log Docs", "Koala-Log 文档")}
+        </h2>
+
+        <div className="border border-white/10 bg-white/5 p-5">
+          <p className="text-sm text-white/80">
+            {t(
+              "Repository: Koala-Log/docs (Public).",
+              "仓库：Koala-Log/docs（公开）。"
+            )}
+          </p>
+          <p className="mt-1 text-sm text-white/70">
+            {koalaDocs.stack} · {koalaDocs.updated}
+          </p>
+          <div className="mt-3 flex flex-wrap gap-4 text-sm">
+            <a
+              href={koalaDocs.repo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:opacity-80"
+            >
+              GitHub Repository
+            </a>
+            <a
+              href={koalaDocs.site}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:opacity-80"
+            >
+              Live Docs
+            </a>
+          </div>
+        </div>
       </section>
 
-      {/* Templates & Tools */}
-      <section className="mb-10">
-        <h2 className="text-2xl font-bold text-orange-400 mb-4">{t("Templates & Tools", "模板与工具")}</h2>
-        <ul className="grid md:grid-cols-3 gap-4">
-          <li className="rounded border border-white/10 bg-white/5 p-4">
-            <h3 className="font-semibold">{t("Engineering Notebook", "工程笔记模板")}</h3>
-            <p className="text-sm text-white/80 mt-1">
-              {t("Ready-to-use templates for season documentation.", "可直接使用的赛季文档模板。")}
-            </p>
-          </li>
-          <li className="rounded border border-white/10 bg-white/5 p-4">
-            <h3 className="font-semibold">{t("Project Management", "项目管理")}</h3>
-            <p className="text-sm text-white/80 mt-1">
-              {t("Boards and checklists for efficient collaboration.", "高效协作的看板与清单。")}
-            </p>
-          </li>
-          <li className="rounded border border-white/10 bg-white/5 p-4">
-            <h3 className="font-semibold">{t("Competition Prep", "赛前准备")}</h3>
-            <p className="text-sm text-white/80 mt-1">
-              {t("Packing lists, inspection aids, and pit setup guides.", "打包清单、检录辅助与 Pit 搭建指南。")}
-            </p>
-          </li>
-        </ul>
+      <section>
+        <h2 className="mb-4 text-2xl font-bold text-orange-400">
+          {t("External Link", "外部链接")}
+        </h2>
+        <a
+          href="https://cyclezlab.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-lg text-tiffany-200 underline underline-offset-4 hover:opacity-80"
+        >
+          https://cyclezlab.com
+        </a>
       </section>
-
-      <footer className="text-sm text-white/60">
-        {t("Looking for something specific? Contact us on the Contact page.", "寻找特定资源？请在“联系我们”页面与我们联系。")}
-      </footer>
     </main>
   )
 }

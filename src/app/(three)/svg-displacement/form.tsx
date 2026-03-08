@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from "react"
-import { Content } from "./content"
 import { Canvas } from "@react-three/fiber"
+import { useCallback, useRef, useState } from "react"
+
+import { Content } from "./content"
 import { Scene } from "./scene"
 
 export function Form() {

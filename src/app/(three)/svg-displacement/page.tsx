@@ -1,8 +1,5 @@
 "use client"
 
-import { Canvas } from "@react-three/fiber"
-
-import { Scene } from "./scene"
 import { Form } from "./form"
 
 export default function Page() {

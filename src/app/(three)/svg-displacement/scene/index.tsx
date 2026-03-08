@@ -1,5 +1,6 @@
 "use client"
 
+import { PerspectiveCamera } from "@react-three/drei"
 import {
   createPortal,
   ThreeEvent,
@@ -11,7 +12,6 @@ import * as THREE from "three"
 
 import { useMaterials } from "./use-materials"
 import { useTargets } from "./use-targets"
-import { PerspectiveCamera } from "@react-three/drei"
 export function Scene() {
   const vRefs = useMemo(
     () => ({
@@ -32,17 +32,23 @@ export function Scene() {
   // We'll raycast against the plane to compute precise UVs under the cursor,
   // which avoids offsets from CSS layout, DPR, and container scaling.
   const planeRef = useMemo(() => new THREE.Object3D(), [])
-  const scenePlaneRef = useMemo(() => ({ current: null as THREE.Mesh | null }), [])
+  const scenePlaneRef = useMemo(
+    () => ({ current: null as THREE.Mesh | null }),
+    []
+  )
   const raycaster = useMemo(() => new THREE.Raycaster(), [])
   const ndc = useMemo(() => new THREE.Vector2(), [])
-  const getState = useThree(() => ({} as any)) // placeholder to access size/camera if needed
   const uvFromIntersection = useCallback((i: THREE.Intersection) => {
     // Compute UVs robustly: prefer direct uv, else compute from face+uvs if available
     if ((i as any).uv) return (i as any).uv as THREE.Vector2
     if (i.face && i.object) {
-      const geom = (i.object as any).geometry as THREE.BufferGeometry | undefined
+      const geom = (i.object as any).geometry as
+        | THREE.BufferGeometry
+        | undefined
       if (geom) {
-        const uvAttr = geom.getAttribute("uv") as THREE.BufferAttribute | undefined
+        const uvAttr = geom.getAttribute("uv") as
+          | THREE.BufferAttribute
+          | undefined
         const indexAttr = geom.getIndex()
         if (uvAttr && indexAttr) {
           const a = indexAttr.getX(i.face.a)
@@ -52,12 +58,8 @@ export function Scene() {
           const uvb = new THREE.Vector2().fromBufferAttribute(uvAttr, b)
           const uvc = new THREE.Vector2().fromBufferAttribute(uvAttr, c)
           const uv = new THREE.Vector2()
-          const bary = i.uv ? (i.uv as THREE.Vector2) : new THREE.Vector2(0.5, 0.5)
           // Fallback linear mix (approx) if bary not present
-          uv.set(
-            (uva.x + uvb.x + uvc.x) / 3,
-            (uva.y + uvb.y + uvc.y) / 3
-          )
+          uv.set((uva.x + uvb.x + uvc.x) / 3, (uva.y + uvb.y + uvc.y) / 3)
           return uv
         }
       }
@@ -65,41 +67,46 @@ export function Scene() {
     return null
   }, [])
 
-  const handlePointerMove = useCallback((e: ThreeEvent<PointerEvent>) => {
-    // Compute NDC using the event target canvas rect to be independent of CSS scaling
-    const target = e.target as HTMLElement | null
-    const rect = target?.getBoundingClientRect()
-    const w = rect?.width ?? window.innerWidth
-    const h = rect?.height ?? window.innerHeight
-    const cx = (e.nativeEvent as PointerEvent).clientX - (rect?.left ?? 0)
-    const cy = (e.nativeEvent as PointerEvent).clientY - (rect?.top ?? 0)
+  const handlePointerMove = useCallback(
+    (e: ThreeEvent<PointerEvent>) => {
+      // Compute NDC using the event target canvas rect to be independent of CSS scaling
+      const target = e.target as HTMLElement | null
+      const rect = target?.getBoundingClientRect()
+      const w = rect?.width ?? window.innerWidth
+      const h = rect?.height ?? window.innerHeight
+      const cx = (e.nativeEvent as PointerEvent).clientX - (rect?.left ?? 0)
+      const cy = (e.nativeEvent as PointerEvent).clientY - (rect?.top ?? 0)
 
-    ndc.set((cx / w) * 2 - 1, -(cy / h) * 2 + 1)
+      ndc.set((cx / w) * 2 - 1, -(cy / h) * 2 + 1)
 
-    // Use camera provided by R3F event
-    const cam = (e as any).camera as THREE.Camera | undefined
-    if (cam) {
-      raycaster.setFromCamera(ndc, cam)
-      // Prefer the live mesh ref; fallback to planeRef clone
-      const targetMesh = scenePlaneRef.current as unknown as THREE.Object3D | null
-      const obj = (targetMesh || (planeRef as unknown as THREE.Mesh)) as THREE.Object3D
-      if ((obj as any).geometry) {
-        const intersects = raycaster.intersectObject(obj, false)
-        if (intersects.length) {
-          const uv = uvFromIntersection(intersects[0])
-          if (uv) {
-            vRefs.uv.copy(uv)
-            return
+      // Use camera provided by R3F event
+      const cam = (e as any).camera as THREE.Camera | undefined
+      if (cam) {
+        raycaster.setFromCamera(ndc, cam)
+        // Prefer the live mesh ref; fallback to planeRef clone
+        const targetMesh =
+          scenePlaneRef.current as unknown as THREE.Object3D | null
+        const obj = (targetMesh ||
+          (planeRef as unknown as THREE.Mesh)) as THREE.Object3D
+        if ((obj as any).geometry) {
+          const intersects = raycaster.intersectObject(obj, false)
+          if (intersects.length) {
+            const uv = uvFromIntersection(intersects[0])
+            if (uv) {
+              vRefs.uv.copy(uv)
+              return
+            }
           }
         }
       }
-    }
 
-    // Fallback to e.uv if raycast fails for any reason
-    if (e.uv) {
-      vRefs.uv.copy(e.uv)
-    }
-  }, [ndc, raycaster, uvFromIntersection, planeRef, vRefs])
+      // Fallback to e.uv if raycast fails for any reason
+      if (e.uv) {
+        vRefs.uv.copy(e.uv)
+      }
+    },
+    [ndc, raycaster, uvFromIntersection, planeRef, vRefs]
+  )
 
   const updateFilter = useCallback((canvas: HTMLCanvasElement) => {
     const feImage = document.getElementById(

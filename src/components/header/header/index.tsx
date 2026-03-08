@@ -1,19 +1,28 @@
 "use client"
 
+import Image from "next/image"
+import { usePathname } from "next/navigation"
 import React from "react"
-// import { experiments } from "~/app/experiments"
+
 import Link from "~/components/primitives/link"
+import { useAppStore } from "~/context/use-app-store"
+import { cn } from "~/lib/utils/utils"
 
 import { GithubLink } from "./github-link"
-import { useAppStore } from "~/context/use-app-store"
-// import MobileMenu from "./mobile-menu"
+
+const NAV_ITEMS = [
+  { href: "/about", en: "ABOUT", zh: "关于我们" },
+  { href: "/achievements", en: "ACHIEVEMENTS", zh: "成就" },
+  { href: "/robot", en: "ROBOT", zh: "我们的机器人" },
+  { href: "/resources", en: "RESOURCES", zh: "资源" },
+  { href: "/partnerships", en: "PARTNERS", zh: "合作伙伴" },
+  { href: "/contact", en: "CONTACT", zh: "联系我们" }
+]
 
 export const Header = () => {
-  // Guard during server render to avoid calling hooks before "use client" hydration
-  // Delay reading localStorage until mounted
-  // simple client-only i18n toggle using localStorage for now
   const { lang, toggleLang } = useAppStore()
   const [mounted, setMounted] = React.useState(false)
+  const pathname = usePathname()
 
   React.useEffect(() => {
     setMounted(true)
@@ -21,115 +30,130 @@ export const Header = () => {
 
   const t = (en: string, zh: string) => (lang === "en" ? en : zh)
 
-  // Avoid mismatches before hydration by rendering a neutral shell without language-dependent text
   if (!mounted) {
     return (
-      <div className="sticky w-full top-0 p-0 bg-black/70 backdrop-blur supports-[backdrop-filter]:bg-black/50 z-over-canvas">
-        <header className="h-[3rem] px-4 md:px-6 flex items-center justify-between z-40 relative border-b border-[var(--color-gray-lighter)]">
-          <div className="flex basis-[30%] flex-grow items-center gap-6 md:gap-8">
-            <Link href="/" className="flex items-center gap-2" aria-label="Home">
-              <img src="/images/Ripples.png" alt="Ripples 25832" className="h-10 w-auto" />
-              <span className="sr-only">Ripples 25832</span>
-            </Link>
-          </div>
-          <div className="flex items-center gap-3 md:gap-4">
-            <div className="h-6 w-10 rounded border border-white/10" aria-hidden="true" />
-            <GithubLink />
-          </div>
+      <div className="sticky top-0 z-over-canvas border-b border-white/10 bg-black/45 backdrop-blur-md">
+        <header className="shell-container flex h-16 items-center justify-between">
+          <Link href="/" className="flex items-center gap-3" aria-label="Home">
+            <Image
+              src="/images/Ripples.png"
+              alt="Ripples 25832"
+              width={108}
+              height={42}
+              className="h-10 w-auto"
+              priority
+            />
+          </Link>
+          <div className="h-8 w-10 rounded-full border border-white/15" />
         </header>
       </div>
     )
   }
 
   return (
-    <>
-      <div className="sticky w-full top-0 p-0 bg-black/70 backdrop-blur supports-[backdrop-filter]:bg-black/50 z-over-canvas">
-        <header className="h-[3rem] px-4 md:px-6 flex items-center justify-between z-40 relative border-b border-[var(--color-gray-lighter)]">
-          <div className="flex basis-[30%] flex-grow items-center gap-6 md:gap-8">
-            <Link href="/" className="flex items-center gap-2">
-              <img src="/images/Ripples.png" alt="Ripples 25832" className="h-10 w-auto" />
-              <span className="sr-only">Ripples 25832</span>
-            </Link>
-
-
-            {/* Team navigation links */}
-            <nav aria-label="Primary" className="hidden md:block">
-              <ul className="flex flex-row font-mono gap-x-4 text-sm items-center">
-                {/* <li>
-                  <Link href="/" className="hover:underline hover:opacity-80 transition">
-                    <span>{t("HOME", "首页")}</span>
-                  </Link>
-                </li> */}
-                <li>
-                  <Link href="/about" className="hover:underline hover:opacity-80 transition">
-                    <span>{t("ABOUT US", "关于我们")}</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/achievements" className="hover:underline hover:opacity-80 transition">
-                    <span>{t("ACHIEVEMENTS", "成就")}</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/robot" className="hover:underline hover:opacity-80 transition">
-                    <span>{t("OUR ROBOT", "我们的机器人")}</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/resources" className="hover:underline hover:opacity-80 transition">
-                    <span>{t("RESOURCES", "资源")}</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/partnerships" className="hover:underline hover:opacity-80 transition">
-                    <span>{t("PARTNERSHIPS", "合作伙伴")}</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/contact" className="hover:underline hover:opacity-80 transition">
-                    <span>{t("CONTACT", "联系我们")}</span>
-                  </Link>
-                </li>
-              </ul>
-            </nav>
+    <div className="sticky top-0 z-over-canvas border-b border-white/10 bg-black/45 backdrop-blur-md">
+      <header className="shell-container flex h-16 items-center gap-4">
+        <Link
+          href="/"
+          className="flex shrink-0 items-center gap-3"
+          aria-label="Home"
+        >
+          <Image
+            src="/images/Ripples.png"
+            alt="Ripples 25832"
+            width={108}
+            height={42}
+            className="h-10 w-auto"
+            priority
+          />
+          <div className="hidden sm:block">
+            <p className="text-[10px] uppercase tracking-[0.22em] text-white/55">
+              FTC TEAM 25832
+            </p>
+            <p className="text-sm font-semibold text-white/85">RIPPLES</p>
           </div>
+        </Link>
 
-          <div className="flex items-center gap-3 md:gap-4">
-            <button
-              type="button"
-              onClick={toggleLang}
-              className="font-mono text-xs md:text-sm px-2 py-1 rounded border border-white/20 hover:border-white/40 text-tiffany-300 hover:text-white transition"
-              aria-label="Toggle language"
-            >
-              {lang === "en" ? "中文" : "EN"}
-            </button>
+        <nav aria-label="Primary" className="ml-4 hidden lg:block">
+          <ul className="flex items-center gap-5 text-[12px] font-semibold tracking-[0.1em]">
+            {NAV_ITEMS.map((item) => {
+              const isActive =
+                pathname === item.href ||
+                (item.href !== "/" && pathname?.startsWith(item.href))
 
-            <Link
-              href="/timeline"
-              className="hidden md:inline font-mono text-tiffany-300 hover:underline hover:opacity-80 transition"
-            >
-              <span className="font-bold">{t("NEWS", "新闻")}</span>
-              <span className="hidden lg:inline">: {t("Off to Worlds!", "进军世界赛！")}</span>
-            </Link>
-
-
-            <GithubLink />
-          </div>
-        </header>
-
-        {/* Mobile quick nav */}
-        <nav aria-label="Primary Mobile" className="md:hidden border-b border-[var(--color-gray-lighter)] px-4 py-2">
-          <ul className="grid grid-cols-3 gap-2 text-[11px] font-mono">
-            <li><Link href="/" className="block text-center py-1 rounded bg-white/5 hover:bg-white/10 transition">{t("HOME","首页")}</Link></li>
-            <li><Link href="/about" className="block text-center py-1 rounded bg-white/5 hover:bg-white/10 transition">{t("ABOUT","关于我们")}</Link></li>
-            <li><Link href="/achievements" className="block text-center py-1 rounded bg-white/5 hover:bg-white/10 transition">{t("ACHIEVE","成就")}</Link></li>
-            <li><Link href="/robot" className="block text-center py-1 rounded bg-white/5 hover:bg-white/10 transition">{t("ROBOT","机器人")}</Link></li>
-            <li><Link href="/resources" className="block text-center py-1 rounded bg-white/5 hover:bg-white/10 transition">{t("RES","资源")}</Link></li>
-            <li><Link href="/partnerships" className="block text-center py-1 rounded bg-white/5 hover:bg-white/10 transition">{t("PARTNERS","伙伴")}</Link></li>
-            <li className="col-span-3"><Link href="/contact" className="block text-center py-1 rounded bg-white/5 hover:bg-white/10 transition">{t("CONTACT","联系我们")}</Link></li>
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    aria-current={isActive ? "page" : undefined}
+                    className={cn(
+                      "border-b-2 pb-1 transition",
+                      isActive
+                        ? "border-tiffany-300 text-tiffany-100"
+                        : "border-transparent text-white/70 hover:text-white"
+                    )}
+                  >
+                    {t(item.en, item.zh)}
+                  </Link>
+                </li>
+              )
+            })}
           </ul>
         </nav>
-      </div>
-    </>
+
+        <div className="ml-auto flex items-center gap-3">
+          <button
+            type="button"
+            onClick={toggleLang}
+            className="rounded-full border border-white/20 px-2.5 py-1.5 text-xs font-semibold tracking-[0.08em] text-white/80 transition hover:border-white/45 hover:text-white"
+            aria-label="Toggle language"
+          >
+            {lang === "en" ? "中文" : "EN"}
+          </button>
+          <GithubLink />
+        </div>
+      </header>
+
+      <nav aria-label="Primary Mobile" className="border-t border-white/10 lg:hidden">
+        <div className="shell-container overflow-x-auto py-2">
+          <ul className="flex min-w-max gap-4 text-[11px] font-semibold tracking-[0.08em] text-white/70">
+            <li>
+              <Link
+                href="/"
+                className={cn(
+                  "border-b pb-1 transition",
+                  pathname === "/"
+                    ? "border-tiffany-300 text-tiffany-100"
+                    : "border-transparent hover:text-white"
+                )}
+              >
+                {t("HOME", "首页")}
+              </Link>
+            </li>
+            {NAV_ITEMS.map((item) => {
+              const isActive =
+                pathname === item.href ||
+                (item.href !== "/" && pathname?.startsWith(item.href))
+
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={cn(
+                      "border-b pb-1 transition",
+                      isActive
+                        ? "border-tiffany-300 text-tiffany-100"
+                        : "border-transparent hover:text-white"
+                    )}
+                  >
+                    {t(item.en, item.zh)}
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      </nav>
+    </div>
   )
 }

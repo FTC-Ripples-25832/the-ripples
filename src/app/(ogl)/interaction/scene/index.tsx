@@ -1,4 +1,3 @@
-import { folder as levaFolder, useControls } from "leva"
 import { Camera, Mesh, RenderTarget, Transform, Vec2, Vec3 } from "ogl"
 import { useEffect, useMemo, useRef } from "react"
 import { createPortal, useFrame, useOGL } from "react-ogl"
@@ -7,14 +6,15 @@ import { DEFAULT_SCISSOR } from "~/gl"
 import { OrbitHelper } from "~/gl/components/devex/orbit"
 import { QuadGeometry } from "~/gl/components/quad"
 import { useGlControls } from "~/gl/hooks/use-gl-controls"
+
 import { getPostProgram } from "../programs/post-program"
+import { INSIDE_MODEL_SCALE, OUTSIDE_MODEL_SCALE } from "./constants"
 import { DebugTextures } from "./debug-textures"
 import { useAssets } from "./use-assets"
-import { useTargets } from "./use-targets"
-import { usePrograms } from "./use-programs"
-import { INSIDE_MODEL_SCALE, OUTSIDE_MODEL_SCALE } from "./constants"
 import { useHit } from "./use-hit"
+import { usePrograms } from "./use-programs"
 import { useRenderCopy } from "./use-render-copy"
+import { useTargets } from "./use-targets"
 
 export function Scene() {
   const gl = useOGL((s) => s.gl)

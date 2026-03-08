@@ -34,7 +34,7 @@ export function Viewer({ src }: ViewerProps) {
     // Camera
     const camera = new THREE.PerspectiveCamera(
       50,
-      (container.clientWidth / container.clientHeight) || 1,
+      container.clientWidth / container.clientHeight || 1,
       0.1,
       1000
     )
@@ -59,7 +59,11 @@ export function Viewer({ src }: ViewerProps) {
     // Ground (subtle)
     const ground = new THREE.Mesh(
       new THREE.CircleGeometry(10, 64),
-      new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.9, metalness: 0.0 })
+      new THREE.MeshStandardMaterial({
+        color: 0x111111,
+        roughness: 0.9,
+        metalness: 0.0
+      })
     )
     ground.rotation.x = -Math.PI / 2
     ground.position.y = -0.01
@@ -101,32 +105,34 @@ export function Viewer({ src }: ViewerProps) {
           "alphaMap",
           "displacementMap",
           "lightMap",
-          "bumpMap",
-        ];
+          "bumpMap"
+        ]
         textureProps.forEach((prop) => {
-          const tex = material?.[prop];
+          const tex = material?.[prop]
           if (tex && typeof tex.dispose === "function") {
-            tex.dispose();
+            tex.dispose()
           }
-        });
-        if (material && typeof material.dispose === "function") material.dispose();
-      };
+        })
+        if (material && typeof material.dispose === "function") {
+          material.dispose()
+        }
+      }
 
       obj.traverse((child) => {
-        const mesh = child as THREE.Mesh;
+        const mesh = child as THREE.Mesh
         if (mesh.geometry) {
-          mesh.geometry.dispose();
+          mesh.geometry.dispose()
         }
-        const material = mesh.material as any;
+        const material = mesh.material as any
         if (material) {
           if (Array.isArray(material)) {
-            material.forEach(disposeMaterialTextures);
+            material.forEach(disposeMaterialTextures)
           } else {
-            disposeMaterialTextures(material);
+            disposeMaterialTextures(material)
           }
         }
-      });
-    };
+      })
+    }
 
     // Load model (ensure previous one is removed/disposed first)
     const loader = new GLTFLoader()

@@ -1,8 +1,16 @@
-import { Mesh, Program, RenderTarget, Transform, Texture, Geometry, OGLRenderingContext } from "ogl"
+import {
+  Geometry,
+  Mesh,
+  OGLRenderingContext,
+  Program,
+  RenderTarget,
+  Texture,
+  Transform
+} from "ogl"
 import { useMemo } from "react"
 import { useOGL } from "react-ogl"
 
-const copyVertex = /* glsl */`
+const copyVertex = /* glsl */ `
   attribute vec2 position;
   attribute vec2 uv;
   varying vec2 vUv;
@@ -13,7 +21,7 @@ const copyVertex = /* glsl */`
   }
 `
 
-const copyFragment = /* glsl */`
+const copyFragment = /* glsl */ `
   precision highp float;
   uniform sampler2D tMap;
   varying vec2 vUv;
@@ -61,4 +69,4 @@ export function useRenderCopy(gl: OGLRenderingContext) {
       target: targetRenderTarget
     })
   }
-} 
+}

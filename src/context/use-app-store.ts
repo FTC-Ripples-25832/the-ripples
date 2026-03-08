@@ -33,7 +33,8 @@ export const useAppStore = create<AppStore>((set, get) => {
     isDebug: false,
 
     // Initialize language deterministically; persist if missing
-    lang: persistedLang === "en" || persistedLang === "zh" ? persistedLang : "en",
+    lang:
+      persistedLang === "en" || persistedLang === "zh" ? persistedLang : "en",
     setLang: (lang: "en" | "zh") => {
       if (typeof window !== "undefined") {
         window.localStorage.setItem("ripples-lang", lang)
@@ -48,7 +49,8 @@ export const useAppStore = create<AppStore>((set, get) => {
       set((s) => ({ ...s, lang: next }))
     },
 
-    setFontsLoaded: (fontsLoaded: boolean) => set((s) => ({ ...s, fontsLoaded })),
+    setFontsLoaded: (fontsLoaded: boolean) =>
+      set((s) => ({ ...s, fontsLoaded })),
     setReducedMotion: (reducedMotion: boolean) =>
       set((s) => ({ ...s, reducedMotion }))
   }

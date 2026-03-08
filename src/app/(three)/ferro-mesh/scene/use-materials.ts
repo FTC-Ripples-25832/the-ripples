@@ -7,10 +7,10 @@ import { createFlowMaterial } from "./materials/flow-material"
 import { createFlowNormalMaterial } from "./materials/flow-normal-material"
 import { getMapDebugProgram } from "./materials/map-debug-program"
 import { createOrbeRaymarchMaterial } from "./materials/orbe-raymarch-material"
+import { createPostprocessingMaterial } from "./materials/postprocessing-material"
 import { getRaymarchProgram } from "./materials/raymarch-program"
 import type { Assets } from "./use-assets"
 import { flowSize, SceneTargets } from "./use-targets"
-import { createPostprocessingMaterial } from "./materials/postprocessing-material"
 
 export type SceneMaterials = ReturnType<typeof useMaterials>
 
@@ -20,7 +20,8 @@ export function useMaterials(targets: SceneTargets, assets: Assets) {
   const materials = useMemo(() => {
     // POSTPROCESSING
     const postprocessingMaterial = createPostprocessingMaterial()
-    postprocessingMaterial.uniforms.baseMap.value = targets.baseRenderFbo.texture
+    postprocessingMaterial.uniforms.baseMap.value =
+      targets.baseRenderFbo.texture
 
     // FERRO MESH MATERIAL
     const ferroMeshMaterial = createFerroMeshMaterial()
@@ -67,8 +68,8 @@ export function useMaterials(targets: SceneTargets, assets: Assets) {
     }
     raymarchMaterial.uniforms.pyramidReveal = { value: 0.0 }
     raymarchMaterial.uniforms.mouseSpeed = { value: 0.0 }
-      ; (raymarchMaterial.uniforms.uNoiseTexture = { value: assets.noiseMap }),
-        (raymarchMaterial.uniforms.uEnvMap = { value: assets.envMap })
+    ;(raymarchMaterial.uniforms.uNoiseTexture = { value: assets.noiseMap }),
+      (raymarchMaterial.uniforms.uEnvMap = { value: assets.envMap })
 
     // ORBE material
     const orbeRaymarchMaterial = createOrbeRaymarchMaterial()

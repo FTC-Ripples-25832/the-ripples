@@ -1,8 +1,8 @@
-"use client";
+"use client"
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react"
 
-export type Lang = "en" | "zh";
+export type Lang = "en" | "zh"
 
 /**
  * useLanguage
@@ -11,29 +11,29 @@ export type Lang = "en" | "zh";
  * - Setter persists to localStorage safely (wrapped in try/catch).
  */
 export function useLanguage() {
-  const [lang, setLang] = useState<Lang>("en");
+  const [lang, setLang] = useState<Lang>("en")
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined") return
     try {
-      const stored = window.localStorage.getItem("ripples-lang");
+      const stored = window.localStorage.getItem("ripples-lang")
       if (stored === "en" || stored === "zh") {
-        setLang(stored);
+        setLang(stored)
       }
     } catch (error) {
-      console.warn("Failed to access localStorage:", error);
+      console.warn("Failed to access localStorage:", error)
     }
-  }, []);
+  }, [])
 
   const setLanguage = useCallback((next: Lang) => {
-    setLang(next);
-    if (typeof window === "undefined") return;
+    setLang(next)
+    if (typeof window === "undefined") return
     try {
-      window.localStorage.setItem("ripples-lang", next);
+      window.localStorage.setItem("ripples-lang", next)
     } catch (error) {
-      console.warn("Failed to write localStorage:", error);
+      console.warn("Failed to write localStorage:", error)
     }
-  }, []);
+  }, [])
 
-  return { lang, setLang: setLanguage };
+  return { lang, setLang: setLanguage }
 }

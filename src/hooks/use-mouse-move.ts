@@ -13,7 +13,7 @@ export function useMouseMove(callback: MouseMoveCallback) {
 
   useEffect(() => {
     const cId = mouseMoveSubscribable.addCallback((e) => {
-      ; (callbackRef.current as MouseMoveCallback)(e)
+      ;(callbackRef.current as MouseMoveCallback)(e)
     })
 
     return () => {

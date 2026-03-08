@@ -189,8 +189,6 @@ class FlipFluid {
 
   integrateParticles(dt: number, gravity: number, atractor?: Atractor): void {
     for (let i = 0; i < this.numParticles; i++) {
-
-
       // update velocity gravity
       this.particleVel[2 * i + 1] += dt * gravity
 
@@ -220,14 +218,12 @@ class FlipFluid {
           this.particleVel[2 * i + 1] -= forceY
         }
       } else {
-
       }
 
       // update position
       this.particlePos[3 * i] += this.particleVel[2 * i] * dt
       this.particlePos[3 * i + 1] += this.particleVel[2 * i + 1] * dt
     }
-
   }
 
   pushParticlesApart(numIters: number): void {
@@ -445,12 +441,12 @@ class FlipFluid {
   transferVelocities(
     params:
       | {
-        toGrid: false
-        flipRatio: number
-      }
+          toGrid: false
+          flipRatio: number
+        }
       | {
-        toGrid: true
-      }
+          toGrid: true
+        }
   ): void {
     const n = this.fNumY
     const h = this.h
@@ -531,22 +527,22 @@ class FlipFluid {
           const offset = component === 0 ? n : 1
           const valid0 =
             this.cellType[nr0] !== AIR_CELL ||
-              this.cellType[nr0 - offset] !== AIR_CELL
+            this.cellType[nr0 - offset] !== AIR_CELL
               ? 1.0
               : 0.0
           const valid1 =
             this.cellType[nr1] !== AIR_CELL ||
-              this.cellType[nr1 - offset] !== AIR_CELL
+            this.cellType[nr1 - offset] !== AIR_CELL
               ? 1.0
               : 0.0
           const valid2 =
             this.cellType[nr2] !== AIR_CELL ||
-              this.cellType[nr2 - offset] !== AIR_CELL
+            this.cellType[nr2 - offset] !== AIR_CELL
               ? 1.0
               : 0.0
           const valid3 =
             this.cellType[nr3] !== AIR_CELL ||
-              this.cellType[nr3 - offset] !== AIR_CELL
+            this.cellType[nr3 - offset] !== AIR_CELL
               ? 1.0
               : 0.0
 
@@ -901,4 +897,3 @@ export function simulate(dt: number, attractor: Atractor): void {
   )
   scene.frameNr++
 }
-

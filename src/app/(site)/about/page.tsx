@@ -90,13 +90,6 @@ export default function AboutPage() {
     }
   ]
 
-  const timeline = [
-    // { year: "Year 1", en: "Team of 3 founded; first regional", zh: "3 人创队；首次地区赛", img: "/images/timeline-1.jpg" },
-    // { year: "Year 2", en: "Grew to 8; outreach begins", zh: "成长至 8 人；开始科普", img: "/images/timeline-2.jpg" },
-    // { year: "Year 3", en: "15 members; robotics club established", zh: "15 名成员；成立机器人社团", img: "/images/timeline-3.jpg" },
-    // { year: "Year 4", en: "Mentors from world champions", zh: "世界冠军队导师指导", img: "/images/timeline-4.jpg" }
-  ]
-
   return (
     <main className="container mx-auto px-4 py-10 text-white">
       <header className="mb-10">
@@ -123,30 +116,10 @@ export default function AboutPage() {
         height={800}
         className="rounded-lg mb-6"
       />
-      {/* Growth Timeline */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4 text-orange-400">
           {t("Team Growth Journey", "团队成长历程")}
         </h2>
-        <ol className="grid md:grid-cols-4 gap-4">
-          {timeline.map((tli, i) => (
-            <li
-              key={i}
-              className="rounded border border-white/10 bg-white/5 p-3"
-            >
-              <div className="relative h-28 w-full mb-2 overflow-hidden rounded">
-                <Image
-                  src={tli.img}
-                  alt={tli.year}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="text-sm font-mono text-white/70">{tli.year}</div>
-              <div className="text-sm">{t(tli.en, tli.zh)}</div>
-            </li>
-          ))}
-        </ol>
         <ul className="mt-4 grid md:grid-cols-2 gap-3 text-sm text-white/80">
           <li>
             •{" "}

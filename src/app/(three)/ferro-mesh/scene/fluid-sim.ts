@@ -380,14 +380,6 @@ class FlipFluid {
       pointAFactor = Math.pow(pointAFactor, 0.2)
       pointAFactor = clamp(pointAFactor, 0.0, 0.7)
     }
-
-    // disable particles when on the ground
-    const particleHFactor = clamp(
-      this.particlePosLerp[particleIndex + 1] * 40,
-      0.0,
-      1.0
-    )
-
     let mouseFactor = 0
 
     if (this.enableMouse) {
@@ -630,12 +622,12 @@ class FlipFluid {
   transferVelocities(
     params:
       | {
-        toGrid: false
-        flipRatio: number
-      }
+          toGrid: false
+          flipRatio: number
+        }
       | {
-        toGrid: true
-      }
+          toGrid: true
+        }
   ): void {
     const n = this.fNumY
     const h = this.h
@@ -716,22 +708,22 @@ class FlipFluid {
           const offset = component === 0 ? n : 1
           const valid0 =
             this.cellType[nr0] !== AIR_CELL ||
-              this.cellType[nr0 - offset] !== AIR_CELL
+            this.cellType[nr0 - offset] !== AIR_CELL
               ? 1.0
               : 0.0
           const valid1 =
             this.cellType[nr1] !== AIR_CELL ||
-              this.cellType[nr1 - offset] !== AIR_CELL
+            this.cellType[nr1 - offset] !== AIR_CELL
               ? 1.0
               : 0.0
           const valid2 =
             this.cellType[nr2] !== AIR_CELL ||
-              this.cellType[nr2 - offset] !== AIR_CELL
+            this.cellType[nr2 - offset] !== AIR_CELL
               ? 1.0
               : 0.0
           const valid3 =
             this.cellType[nr3] !== AIR_CELL ||
-              this.cellType[nr3 - offset] !== AIR_CELL
+            this.cellType[nr3 - offset] !== AIR_CELL
               ? 1.0
               : 0.0
 

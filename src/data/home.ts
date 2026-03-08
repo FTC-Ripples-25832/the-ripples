@@ -1,17 +1,17 @@
-export type BilingualText = { en: string; zh: string };
+export type BilingualText = { en: string; zh: string }
 
 export const heroContent: { subtitle: BilingualText } = {
   subtitle: {
     en: "Breaking boundaries as a rookie-season FTC team: bold robot design, software quality, and meaningful outreach.",
     zh: "我们的2024-2025 新手赛季，用一句话概括就是：突破界限——大胆的机器人设计、追求极致的软件质量，以及有意义的外联。"
   }
-};
+}
 
-export type HighlightItem = BilingualText;
+export type HighlightItem = BilingualText
 export type Highlight = {
-  title: BilingualText;
-  items: BilingualText[];
-};
+  title: BilingualText
+  items: BilingualText[]
+}
 
 export const highlights: Highlight[] = [
   {
@@ -65,4 +65,4 @@ export const highlights: Highlight[] = [
       }
     ]
   }
-];
+]

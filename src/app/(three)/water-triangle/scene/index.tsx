@@ -33,8 +33,6 @@ export function Scene() {
 
   updateFlowCamera(activeCamera as THREE.PerspectiveCamera)
 
-  const mainScene = useMemo(() => new THREE.Scene(), [])
-
   const [envMap, setEnvMap] = useState<THREE.Texture | null>(null)
 
   // update environment

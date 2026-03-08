@@ -7,14 +7,14 @@
     --foreground-rgb: 0, 0, 0;
     --background-start-rgb: 214, 219, 220;
     --background-end-rgb: 255, 255, 255;
-  
+
     --inspect-color: #f00;
     --color-black: #000;
     --color-white: #fff;
     --color-gray: theme("colors.gray.DEFAULT");
     --color-gray-lighter: theme("colors.gray.lighter");
   }
-  
+
   @media (prefers-color-scheme: dark) {
     :root {
       --foreground-rgb: 255, 255, 255;
@@ -22,6 +22,7 @@
       --background-end-rgb: 0, 0, 0;
     }
   }
+
   html {
     line-height: 1.5;
     box-sizing: border-box;
@@ -30,12 +31,11 @@
     -webkit-font-smoothing: antialiased;
     -moz-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  
-    /* tweak if site is light mode. */
+
     color-scheme: dark;
     background-color: var(--color-black);
   }
-  
+
   body {
     color: rgb(var(--foreground-rgb));
     background: linear-gradient(
@@ -45,23 +45,34 @@
       )
       rgb(var(--background-start-rgb));
   }
-  
-  /* used in use-prevents-scroll hook */
-  
+
   html.no-scroll {
     overflow: hidden;
-  
+
     body {
       overflow: hidden;
       touch-action: none;
     }
   }
-  
+
   body.inspect * {
     outline: 1px solid var(--inspect-color) !important;
   }
 }
 
+@layer components {
+  .shell-container {
+    margin-inline: auto;
+    width: min(100%, 80rem);
+    padding-inline: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .shell-container {
+      padding-inline: 1.5rem;
+    }
+  }
+}
 
 @layer utilities {
   .text-balance {

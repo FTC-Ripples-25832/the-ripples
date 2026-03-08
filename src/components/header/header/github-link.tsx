@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { FaGithub } from "react-icons/fa"
 
-const baseUrl = "https://github.com/FTC-25832"
+const baseUrl = "https://github.com/FTC-Ripples-25832"
 
 export function GithubLink() {
   return (

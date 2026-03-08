@@ -1,8 +1,8 @@
 import { useMemo } from "react"
 
 import { createFlowMaterial } from "./materials/flow-material"
-import { flowSize, SceneTargets } from "./use-targets"
 import { createFlowNormalMaterial } from "./materials/flow-normal-material"
+import { flowSize, SceneTargets } from "./use-targets"
 
 export type SceneMaterials = ReturnType<typeof useMaterials>
 
@@ -18,7 +18,7 @@ export function useMaterials(targets: SceneTargets) {
 
     return {
       flowMaterial,
-      flowNormalMaterial,
+      flowNormalMaterial
     }
   }, [targets])
 
